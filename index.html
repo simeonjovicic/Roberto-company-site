@@ -54,8 +54,8 @@
       --ease2: cubic-bezier(0.16, 1, 0.3, 1);
 
       /* Rhythm */
-      --gutter: 1.5rem;
-      --sect-y: 4.5rem;
+      --gutter: 1.25rem;
+      --sect-y: 2rem;
     }
 
     html {
@@ -76,7 +76,6 @@
       overflow-y: auto;
       height: 100%;
       scroll-snap-type: y mandatory;
-      scroll-behavior: smooth;
     }
 
     /* Scrollbar */
@@ -109,10 +108,9 @@
        FULL-PAGE SCROLL-SNAP SLIDES
     ============================================================ */
     .slide {
-      height: 100svh;
+      min-height: 100svh;
       scroll-snap-align: start;
-      scroll-snap-stop: always;
-      overflow: hidden;
+      overflow: visible;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -207,20 +205,7 @@
       color: var(--gold-bright);
     }
 
-    /* Reveal — kept as progressive enhancement fallback */
-    .rv {
-      opacity: 0;
-      transform: translateY(22px);
-      will-change: opacity, transform;
-    }
-    .rv.in { opacity: 1; transform: none;
-      transition: opacity .9s var(--ease), transform .9s var(--ease);
-    }
-    .d1 { transition-delay: .08s; }
-    .d2 { transition-delay: .16s; }
-    .d3 { transition-delay: .24s; }
-    .d4 { transition-delay: .32s; }
-    .d5 { transition-delay: .40s; }
+    /* Reveal — GSAP handles both initial state and animation via gsap.set() / gsap.to() */
 
     /* ============================================================
        SCROLL-SNAP PORTFOLIO CAROUSEL
@@ -229,11 +214,12 @@
       overflow-x: auto;
       overflow-y: hidden;
       scroll-snap-type: x mandatory;
+      scroll-padding-inline: var(--gutter);
       -webkit-overflow-scrolling: touch;
       display: flex;
       gap: 0;
       margin-top: 2.5rem;
-      /* hide scrollbar but keep functionality */
+      padding: 0 var(--gutter);
       scrollbar-width: none;
     }
     .portfolio-snap-wrap::-webkit-scrollbar { display: none; }
@@ -338,18 +324,12 @@
     /* ============================================================
        PARALLAX HERO TEXT
     ============================================================ */
-    .hero-parallax { will-change: transform; }
+    /* hero-parallax: GSAP handles GPU promotion via force3D */
 
     /* ============================================================
        SECTOR LIST ANIMATION
     ============================================================ */
-    .sector-list li {
-      /* will be animated by GSAP */
-      clip-path: inset(0 100% 0 0);
-    }
-    .sector-list li.sector-revealed {
-      clip-path: inset(0 0% 0 0);
-    }
+    /* Sector list — GSAP handles reveal via opacity + translateX (GPU-friendly) */
 
     /* ============================================================
        NAV
@@ -359,10 +339,11 @@
       top: 0; left: 0; right: 0;
       z-index: 80;
       background: rgba(10, 10, 12, 0.72);
-      backdrop-filter: blur(14px) saturate(140%);
-      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid transparent;
       transition: background .4s var(--ease), border-color .4s var(--ease);
+      contain: layout style;
     }
     .nav.stuck {
       background: rgba(10, 10, 12, 0.93);
@@ -464,15 +445,17 @@
     .m-menu {
       position: fixed;
       inset: 0;
-      background: rgba(10, 10, 12, 0.985);
-      backdrop-filter: blur(20px);
+      background: var(--bg-0);
       z-index: 70;
-      padding: 5rem var(--gutter) 3rem;
+      padding: 5rem var(--gutter) 2rem;
       transform: translateY(-100%);
-      transition: transform .45s var(--ease);
+      opacity: 0;
+      transition: transform .5s var(--ease2), opacity .4s var(--ease);
       overflow-y: auto;
+      display: flex;
+      flex-direction: column;
     }
-    .m-menu.open { transform: translateY(0); }
+    .m-menu.open { transform: translateY(0); opacity: 1; }
     .m-menu-list {
       list-style: none;
       display: flex;
@@ -482,35 +465,50 @@
     }
     .m-menu-list li {
       border-bottom: 1px solid var(--line);
+      transform: translateX(-20px);
+      opacity: 0;
+      transition: transform .4s var(--ease2), opacity .4s var(--ease);
     }
+    .m-menu.open li {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    .m-menu.open li:nth-child(1) { transition-delay: .08s; }
+    .m-menu.open li:nth-child(2) { transition-delay: .12s; }
+    .m-menu.open li:nth-child(3) { transition-delay: .16s; }
+    .m-menu.open li:nth-child(4) { transition-delay: .20s; }
+    .m-menu.open li:nth-child(5) { transition-delay: .24s; }
+    .m-menu.open li:nth-child(6) { transition-delay: .28s; }
     .m-menu-list a {
       display: flex;
       align-items: baseline;
       justify-content: space-between;
-      padding: 1.25rem 0;
+      padding: 1.15rem 0;
       font-family: var(--ff-serif);
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-weight: 400;
       color: var(--t-0);
       letter-spacing: -0.01em;
+      transition: color .2s;
     }
+    .m-menu-list a:active { color: var(--gold-bright); }
     .m-menu-list a span {
       font-family: var(--ff-sans);
-      font-size: .65rem;
+      font-size: .6rem;
       letter-spacing: .2em;
       color: var(--gold);
       font-weight: 500;
       text-transform: uppercase;
     }
     .m-menu-foot {
-      margin-top: 3rem;
-      padding-top: 2rem;
+      margin-top: auto;
+      padding-top: 1.5rem;
       border-top: 1px solid var(--line);
     }
     .m-menu-foot p {
-      font-size: .78rem;
+      font-size: .72rem;
       color: var(--t-2);
-      margin-bottom: .35rem;
+      margin-bottom: .3rem;
     }
     .m-menu-foot a { color: var(--gold-bright); }
 
@@ -518,7 +516,7 @@
        HERO
     ============================================================ */
     .hero {
-      padding: 5rem var(--gutter) 3rem;
+      padding: 4rem var(--gutter) 2rem;
       position: relative;
     }
     .hero-bg {
@@ -539,12 +537,12 @@
     .hero-mark {
       display: flex;
       align-items: center;
-      gap: .9rem;
-      margin-bottom: 2.5rem;
+      gap: .75rem;
+      margin-bottom: 1.5rem;
     }
     .hero-mark-seal {
-      width: 52px;
-      height: 52px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: var(--ivory);
       border: 1px solid var(--line-gold);
@@ -583,18 +581,18 @@
       margin-top: 1.25rem;
     }
     .hero-lede {
-      margin-top: 2rem;
+      margin-top: 1.25rem;
       max-width: 40ch;
     }
 
     /* Hero meta strip */
     .hero-meta {
-      margin-top: 3rem;
+      margin-top: 1.75rem;
       border-top: 1px solid var(--line);
-      padding-top: 1.5rem;
+      padding-top: 1rem;
       display: grid;
       grid-template-columns: 1fr;
-      gap: 1rem;
+      gap: .5rem;
     }
     .hero-meta-item {
       display: flex;
@@ -658,10 +656,10 @@
       text-align: center;
       font-family: var(--ff-italic);
       font-style: italic;
-      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-size: clamp(1.6rem, 6vw, 3.5rem);
       color: var(--gold);
       opacity: .78;
-      margin-bottom: 2rem;
+      margin-bottom: 1.25rem;
     }
     .heritage-quote {
       font-family: var(--ff-serif);
@@ -675,7 +673,7 @@
       text-align: center;
     }
     .heritage-attr {
-      margin-top: 2rem;
+      margin-top: 1.25rem;
       text-align: center;
       font-size: .7rem;
       letter-spacing: .22em;
@@ -685,7 +683,7 @@
     }
     .heritage-body {
       max-width: 52ch;
-      margin: 3rem auto 0;
+      margin: 1.75rem auto 0;
       text-align: center;
     }
 
@@ -696,7 +694,7 @@
       background: var(--bg-0);
     }
     .figures-head {
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.5rem;
     }
     .figures-grid {
       display: grid;
@@ -741,7 +739,7 @@
       border-top: 1px solid var(--line);
     }
     .sectors-head {
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.5rem;
     }
     .sectors-head h2 {
       margin-top: 1rem;
@@ -757,11 +755,11 @@
       border-top: 1px solid var(--line);
     }
     .sector-list li {
-      padding: 1.5rem 0;
+      padding: 1rem 0;
       border-bottom: 1px solid var(--line);
       display: grid;
       grid-template-columns: 2rem 1fr;
-      gap: 1rem;
+      gap: .75rem;
       align-items: start;
     }
     .sector-list .sk {
@@ -792,7 +790,7 @@
       border-top: 1px solid var(--line);
     }
     .portfolio-head {
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.5rem;
     }
     .portfolio-list {
       list-style: none;
@@ -857,20 +855,20 @@
       background: var(--bg-1);
       border-top: 1px solid var(--line);
     }
-    .principles-head { margin-bottom: 2.5rem; }
+    .principles-head { margin-bottom: 1.5rem; }
     .principles-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
       gap: 1px;
       background: var(--line);
       border: 1px solid var(--line);
     }
     .principle {
       background: var(--bg-1);
-      padding: 1.75rem 1.4rem;
+      padding: 1.25rem 1rem;
       display: flex;
       flex-direction: column;
-      gap: .6rem;
+      gap: .4rem;
     }
     .principle-k {
       font-size: .6rem;
@@ -903,11 +901,11 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 0;
-      margin-top: 2.5rem;
+      margin-top: 1.5rem;
       border-top: 1px solid var(--line);
     }
     .loc {
-      padding: 1.75rem 0;
+      padding: 1.25rem 0;
       border-bottom: 1px solid var(--line);
       display: grid;
       grid-template-columns: 1fr auto;
@@ -946,11 +944,11 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 0;
-      margin-top: 2.5rem;
+      margin-top: 1.5rem;
       border-top: 1px solid var(--line);
     }
     .contact-row {
-      padding: 1.75rem 0;
+      padding: 1.25rem 0;
       border-bottom: 1px solid var(--line);
       display: flex;
       flex-direction: column;
@@ -1040,10 +1038,26 @@
     ============================================================ */
     @media (min-width: 640px) {
       :root { --gutter: 2rem; --sect-y: 3rem; }
-      .hero-meta { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+      .slide { height: 100svh; overflow: hidden; }
+      .hero { padding: 5rem var(--gutter) 3rem; }
+      .hero-mark { margin-bottom: 2.5rem; }
+      .hero-mark-seal { width: 52px; height: 52px; }
+      .hero-lede { margin-top: 2rem; }
+      .hero-meta { margin-top: 3rem; padding-top: 1.5rem; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+      .heritage-deco { font-size: clamp(2rem, 6vw, 3.5rem); margin-bottom: 2rem; }
+      .heritage-attr { margin-top: 2rem; }
+      .heritage-body { margin-top: 3rem; }
+      .figures-head { margin-bottom: 2.5rem; }
       .figures-grid { grid-template-columns: repeat(4, 1fr); }
-      .principles-grid { grid-template-columns: repeat(2, 1fr); }
-      .sector-list li { grid-template-columns: 2.5rem 12rem 1fr; gap: 1.5rem; }
+      .sectors-head { margin-bottom: 2.5rem; }
+      .sector-list li { padding: 1.5rem 0; grid-template-columns: 2.5rem 12rem 1fr; gap: 1.5rem; }
+      .portfolio-head { margin-bottom: 2.5rem; }
+      .principles-head { margin-bottom: 2.5rem; }
+      .principle { padding: 1.75rem 1.4rem; gap: .6rem; }
+      .loc-grid { margin-top: 2.5rem; }
+      .loc { padding: 1.75rem 0; }
+      .contact-grid { margin-top: 2.5rem; }
+      .contact-row { padding: 1.75rem 0; }
       .venture { grid-template-columns: 3rem 1fr 2rem; }
     }
 
@@ -1127,18 +1141,57 @@
       transform: scale(1.25);
     }
 
-    /* Hide slide dots on small screens */
+    /* ============================================================
+       MOBILE — < 640px
+    ============================================================ */
     @media (max-width: 639px) {
       .slide-dots { display: none; }
+
+      /* Hero — compact vertical layout */
+      .hero h1 { margin-top: .75rem; }
+      .hero-mark-text .wordmark { font-size: .85rem; letter-spacing: .16em; }
+
+      /* Heritage — tighter on small screens */
+      .heritage-quote { font-size: clamp(1.2rem, 4.5vw, 1.8rem); }
+
+      /* Sectors — hide descriptions to fit in viewport */
+      .sector-list .sd { display: none; }
+      .sector-list li { padding: .85rem 0; }
+      .sector-list .sn { font-size: 1.1rem; }
+
+      /* Scroll line — less margin */
+      .scroll-line { margin: 1rem 0; }
+
+      /* Portfolio cards — wider on mobile */
+      .venture-card { flex: 0 0 82vw; padding: 1.75rem 1.5rem; }
+      .portfolio-snap-wrap { margin-top: 1.5rem; }
+
+      /* Principles — compact 2-col */
+      .principle-h { font-size: 1.05rem; }
+      .principle-p { font-size: .8rem; line-height: 1.6; }
+      .principle-k { font-size: .55rem; }
+
+      /* Locations — compact */
+      .loc-city { font-size: 1.2rem; }
+      .loc-role { font-size: .82rem; }
+
+      /* Contact — compact */
+      .contact-v { font-size: 1rem; }
+      .contact-n { font-size: .75rem; }
+
+      /* Footer — compact */
+      .footer { padding: 2rem var(--gutter) 1.5rem; }
+      .footer-it { font-size: .85rem; }
+      .footer-legal { gap: 1rem; }
+
+      /* Snap dots — smaller on mobile */
+      .snap-dots { margin-top: 1rem; }
     }
 
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
-      .rv { opacity: 1; transform: none; transition: none; }
       .hero-scroll::after { animation: none; }
-      * { scroll-behavior: auto !important; }
       body { scroll-snap-type: none !important; }
-      .sector-list li { clip-path: none !important; }
     }
   </style>
 </head>
@@ -1580,11 +1633,22 @@
   (function(){
     'use strict';
 
+    /* ── RAF-throttled scroll helper ── */
+    function onScrollThrottled(el, fn) {
+      let ticking = false;
+      el.addEventListener('scroll', () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(() => { fn(); ticking = false; });
+        }
+      }, { passive: true });
+    }
+
     /* ── Nav scroll state ── */
     const nav = document.getElementById('nav');
-    const onScroll = () => nav.classList.toggle('stuck', document.body.scrollTop > 24);
-    document.body.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    const checkNav = () => nav.classList.toggle('stuck', document.body.scrollTop > 24);
+    onScrollThrottled(document.body, checkNav);
+    checkNav();
 
     /* ── Mobile menu ── */
     const burger  = document.getElementById('burger');
@@ -1606,7 +1670,6 @@
     }
     burger.addEventListener('click', () => (mobmenu.classList.contains('open') ? closeMenu : openMenu)());
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
-    // make closeMenu available globally for inline onclick
     window.closeMenu = closeMenu;
 
     /* ── Respect reduced motion ── */
@@ -1616,8 +1679,6 @@
        GSAP SCROLL-SNAP SLIDE ANIMATIONS
     ══════════════════════════════════════════════════════ */
     gsap.registerPlugin(ScrollTrigger);
-
-    // Tell GSAP that the scroll container is <body>, not <html>
     ScrollTrigger.defaults({ scroller: document.body });
 
     /* ── Slide indicator dots (right side) ── */
@@ -1640,17 +1701,25 @@
         dots.push(dot);
       });
 
-      // Highlight active dot on scroll
+      // Cache slide offsets — recalc on resize only
+      let slideOffsets = [];
+      function cacheOffsets() {
+        const scrollY = document.body.scrollTop;
+        slideOffsets = Array.from(slides).map(s => s.getBoundingClientRect().top + scrollY);
+      }
+      cacheOffsets();
+      window.addEventListener('resize', cacheOffsets, { passive: true });
+
       let active = 0;
       function updateActive() {
-        const vh = window.innerHeight;
+        const scrollY = document.body.scrollTop;
+        const vh = window.innerHeight * 0.5;
         let closest = 0;
         let minDist = Infinity;
-        slides.forEach((s, i) => {
-          const r = s.getBoundingClientRect();
-          const dist = Math.abs(r.top);
+        for (let i = 0; i < slideOffsets.length; i++) {
+          const dist = Math.abs(slideOffsets[i] - scrollY);
           if (dist < minDist) { minDist = dist; closest = i; }
-        });
+        }
         if (closest !== active) {
           dots[active]?.classList.remove('active');
           dots[closest]?.classList.add('active');
@@ -1658,170 +1727,226 @@
         }
       }
       dots[0]?.classList.add('active');
-      document.body.addEventListener('scroll', updateActive, { passive: true });
+      onScrollThrottled(document.body, updateActive);
     })();
 
-    /* ── 1. Per-slide entrance animations ── */
-    document.querySelectorAll('.slide').forEach(slide => {
-      // Find all .rv elements inside this slide
-      const reveals = slide.querySelectorAll('.rv');
+    /* ── 1. Per-section directional entrance animations ── */
+    if (prefersReduced) {
+      document.querySelectorAll('.rv').forEach(el => gsap.set(el, { opacity: 1, y: 0, x: 0 }));
+    } else {
 
-      if (prefersReduced) {
-        reveals.forEach(el => gsap.set(el, { opacity: 1, y: 0 }));
-        return;
-      }
-
-      reveals.forEach(el => {
-        const delay = parseFloat(getComputedStyle(el).transitionDelay) || 0;
-        gsap.fromTo(el,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1, y: 0,
-            duration: 0.85,
-            delay: delay,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: slide,
-              scroller: document.body,
-              start: 'top 60%',
-              toggleActions: 'play none none none'
-            }
-          }
-        );
+      /* — Hero: main content from left, sidebar from right — */
+      gsap.set(['.hero-mark', '.hero h1', '.hero-lede'], { opacity: 0, x: -50 });
+      gsap.set('.hero-side', { opacity: 0, x: 60 });
+      ScrollTrigger.create({
+        trigger: '#top', scroller: document.body, start: 'top 80%', once: true,
+        onEnter: () => {
+          gsap.to('.hero-mark', { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out', force3D: true });
+          gsap.to('.hero h1', { opacity: 1, x: 0, duration: 1, delay: 0.12, ease: 'power3.out', force3D: true });
+          gsap.to('.hero-lede', { opacity: 1, x: 0, duration: 0.9, delay: 0.24, ease: 'power3.out', force3D: true });
+          gsap.to('.hero-side', { opacity: 1, x: 0, duration: 1, delay: 0.3, ease: 'power3.out', force3D: true });
+        }
       });
-    });
+
+      /* — Heritage: deco fades, quote scales (handled in #5), attr + body fade up — */
+      gsap.set('.heritage-deco', { opacity: 0, y: -20 });
+      gsap.set('.heritage-attr', { opacity: 0, y: 15 });
+      gsap.set('.heritage-body', { opacity: 0, y: 30 });
+      ScrollTrigger.create({
+        trigger: '#herkunft', scroller: document.body, start: 'top 60%', once: true,
+        onEnter: () => {
+          gsap.to('.heritage-deco', { opacity: 0.78, y: 0, duration: 0.8, ease: 'power2.out', force3D: true });
+          gsap.to('.heritage-attr', { opacity: 1, y: 0, duration: 0.7, delay: 0.4, ease: 'power3.out', force3D: true });
+          gsap.to('.heritage-body', { opacity: 1, y: 0, duration: 0.8, delay: 0.55, ease: 'power3.out', force3D: true });
+        }
+      });
+
+      /* — Figures: header from left — */
+      gsap.set('.figures-head', { opacity: 0, x: -40 });
+      ScrollTrigger.create({
+        trigger: '.figures', scroller: document.body, start: 'top 60%', once: true,
+        onEnter: () => {
+          gsap.to('.figures-head', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
+        }
+      });
+
+      /* — Sectors: header from left, lede from right — */
+      gsap.set('#sectors-head-text', { opacity: 0, x: -40 });
+      gsap.set('#sectors-lede', { opacity: 0, x: 40 });
+      ScrollTrigger.create({
+        trigger: '#branchen', scroller: document.body, start: 'top 60%', once: true,
+        onEnter: () => {
+          gsap.to('#sectors-head-text', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
+          gsap.to('#sectors-lede', { opacity: 1, x: 0, duration: 0.8, delay: 0.15, ease: 'power3.out', force3D: true });
+        }
+      });
+
+      /* — Portfolio: header from left, lede from right — */
+      gsap.set('#portfolio-head-text', { opacity: 0, x: -40 });
+      gsap.set('#portfolio-lede', { opacity: 0, x: 40 });
+      ScrollTrigger.create({
+        trigger: '#portfolio', scroller: document.body, start: 'top 60%', once: true,
+        onEnter: () => {
+          gsap.to('#portfolio-head-text', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
+          gsap.to('#portfolio-lede', { opacity: 1, x: 0, duration: 0.8, delay: 0.15, ease: 'power3.out', force3D: true });
+        }
+      });
+
+      /* — Principles: header from left, lede from right — */
+      gsap.set('#principles-head-text', { opacity: 0, x: -40 });
+      gsap.set('#principles-lede', { opacity: 0, x: 40 });
+      ScrollTrigger.create({
+        trigger: '#grundsaetze', scroller: document.body, start: 'top 60%', once: true,
+        onEnter: () => {
+          gsap.to('#principles-head-text', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
+          gsap.to('#principles-lede', { opacity: 1, x: 0, duration: 0.8, delay: 0.15, ease: 'power3.out', force3D: true });
+        }
+      });
+
+      /* — Locations: header from left, items stagger from right — */
+      const locHeader = document.querySelector('#standorte header');
+      const locItems = document.querySelectorAll('#standorte .loc');
+      gsap.set(locHeader, { opacity: 0, x: -40 });
+      gsap.set(locItems, { opacity: 0, x: 50 });
+      ScrollTrigger.create({
+        trigger: '#standorte', scroller: document.body, start: 'top 60%', once: true,
+        onEnter: () => {
+          gsap.to(locHeader, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
+          gsap.to(locItems, { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', stagger: 0.12, delay: 0.2, force3D: true });
+        }
+      });
+
+      /* — Contact: header from left, rows stagger from right — */
+      const contactHeader = document.querySelector('#kontakt header');
+      const contactRows = document.querySelectorAll('#kontakt .contact-row');
+      gsap.set(contactHeader, { opacity: 0, x: -40 });
+      gsap.set(contactRows, { opacity: 0, x: 50 });
+      ScrollTrigger.create({
+        trigger: '#kontakt', scroller: document.body, start: 'top 60%', once: true,
+        onEnter: () => {
+          gsap.to(contactHeader, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
+          gsap.to(contactRows, { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1, delay: 0.15, force3D: true });
+        }
+      });
+
+    } /* end !prefersReduced */
 
     /* ── 2. Counter animation (figures) ── */
-    document.querySelectorAll('[data-count]').forEach(el => {
-      const end = parseInt(el.dataset.count, 10);
-      if (isNaN(end)) return;
-      const obj = { val: 0 };
-      el.textContent = '0';
+    const countEls = document.querySelectorAll('[data-count]');
+    if (countEls.length) {
+      const figSlide = countEls[0].closest('.slide');
+      countEls.forEach(el => { el.textContent = '0'; });
       ScrollTrigger.create({
-        trigger: el.closest('.slide') || el,
+        trigger: figSlide || countEls[0],
         scroller: document.body,
         start: 'top 60%',
         once: true,
         onEnter: () => {
-          gsap.to(obj, {
-            val: end,
-            duration: 1.4,
-            ease: 'power2.out',
-            onUpdate: () => { el.textContent = Math.round(obj.val); }
+          countEls.forEach(el => {
+            const end = parseInt(el.dataset.count, 10);
+            if (isNaN(end)) return;
+            const obj = { val: 0 };
+            gsap.to(obj, {
+              val: end,
+              duration: 1.4,
+              ease: 'power2.out',
+              onUpdate: () => { el.textContent = Math.round(obj.val); }
+            });
           });
         }
       });
-    });
+    }
 
     /* ── 3. Animated gold line (sectors) ── */
     const sectorsLine = document.getElementById('sectors-line');
     if (sectorsLine && !prefersReduced) {
-      gsap.fromTo(sectorsLine,
-        { width: 0 },
-        {
-          width: '100%',
-          duration: 1.2,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: sectorsLine.closest('.slide'),
-            scroller: document.body,
-            start: 'top 60%'
-          }
+      gsap.set(sectorsLine, { width: 0 });
+      ScrollTrigger.create({
+        trigger: sectorsLine.closest('.slide'),
+        scroller: document.body,
+        start: 'top 60%',
+        once: true,
+        onEnter: () => {
+          gsap.to(sectorsLine, { width: '100%', duration: 1.2, ease: 'power2.out' });
         }
-      );
+      });
     }
 
-    /* ── 4. Sector list — staggered clip-path reveal ── */
+    /* ── 4. Sector list — staggered opacity+translate reveal (GPU-friendly) ── */
     const sectorItems = document.querySelectorAll('#sector-list li');
     if (!prefersReduced && sectorItems.length) {
-      gsap.fromTo(sectorItems,
-        { clipPath: 'inset(0 100% 0 0)', opacity: 0 },
-        {
-          clipPath: 'inset(0 0% 0 0)',
-          opacity: 1,
-          duration: 0.85,
-          ease: 'power3.out',
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: '#branchen',
-            scroller: document.body,
-            start: 'top 60%'
-          }
+      gsap.set(sectorItems, { opacity: 0, x: -30 });
+      ScrollTrigger.create({
+        trigger: '#branchen',
+        scroller: document.body,
+        start: 'top 60%',
+        once: true,
+        onEnter: () => {
+          gsap.to(sectorItems, {
+            opacity: 1, x: 0,
+            duration: 0.7,
+            ease: 'power3.out',
+            stagger: 0.08,
+            force3D: true
+          });
         }
-      );
-    } else {
-      sectorItems.forEach(el => { el.style.clipPath = 'none'; el.style.opacity = '1'; });
+      });
     }
 
     /* ── 5. Heritage quote scale-in ── */
     if (!prefersReduced) {
-      gsap.fromTo('.heritage-quote',
-        { scale: 0.9, opacity: 0 },
-        {
-          scale: 1, opacity: 1,
-          duration: 1,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: '#herkunft',
-            scroller: document.body,
-            start: 'top 60%'
-          }
+      gsap.set('.heritage-quote', { scale: 0.92, opacity: 0 });
+      ScrollTrigger.create({
+        trigger: '#herkunft',
+        scroller: document.body,
+        start: 'top 60%',
+        once: true,
+        onEnter: () => {
+          gsap.to('.heritage-quote', { scale: 1, opacity: 1, duration: 1, ease: 'power2.out', force3D: true });
         }
-      );
+      });
     }
 
     /* ── 6. Figures grid — stagger from below ── */
     if (!prefersReduced) {
-      gsap.fromTo('.fig',
-        { y: 40, opacity: 0 },
-        {
-          y: 0, opacity: 1,
-          duration: 0.7,
-          ease: 'power3.out',
-          stagger: 0.11,
-          scrollTrigger: {
-            trigger: '.figures-grid',
-            scroller: document.body,
-            start: 'top 80%'
-          }
+      gsap.set('.fig', { y: 40, opacity: 0 });
+      ScrollTrigger.create({
+        trigger: '.figures-grid',
+        scroller: document.body,
+        start: 'top 80%',
+        once: true,
+        onEnter: () => {
+          gsap.to('.fig', { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.11, force3D: true });
         }
-      );
+      });
     }
 
     /* ── 7. Portfolio cards animate in from right ── */
     if (!prefersReduced) {
-      gsap.fromTo('.venture-card',
-        { x: 60, opacity: 0 },
-        {
-          x: 0, opacity: 1,
-          duration: 0.75,
-          ease: 'power3.out',
-          stagger: 0.08,
-          scrollTrigger: {
-            trigger: '#portfolio',
-            scroller: document.body,
-            start: 'top 60%'
-          }
+      gsap.set('.venture-card', { x: 60, opacity: 0 });
+      ScrollTrigger.create({
+        trigger: '#portfolio',
+        scroller: document.body,
+        start: 'top 60%',
+        once: true,
+        onEnter: () => {
+          gsap.to('.venture-card', { x: 0, opacity: 1, duration: 0.75, ease: 'power3.out', stagger: 0.08, force3D: true });
         }
-      );
+      });
     }
 
     /* ── 8. Principles grid — staggered reveal ── */
     if (!prefersReduced) {
-      gsap.fromTo('#grundsaetze .principle',
-        { y: 30, opacity: 0 },
-        {
-          y: 0, opacity: 1,
-          duration: 0.7,
-          ease: 'power3.out',
-          stagger: 0.12,
-          scrollTrigger: {
-            trigger: '#grundsaetze',
-            scroller: document.body,
-            start: 'top 60%'
-          }
+      gsap.set('#grundsaetze .principle', { y: 30, opacity: 0 });
+      ScrollTrigger.create({
+        trigger: '#grundsaetze',
+        scroller: document.body,
+        start: 'top 60%',
+        once: true,
+        onEnter: () => {
+          gsap.to('#grundsaetze .principle', { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.12, force3D: true });
         }
-      );
+      });
     }
 
     /* ── 9. Scroll-Snap dot indicators (portfolio carousel) ── */
@@ -1853,11 +1978,19 @@
         }
       }
       dots[0]?.classList.add('active');
-      wrap.addEventListener('scroll', updateDots, { passive: true });
+      onScrollThrottled(wrap, updateDots);
     })();
 
     /* ── 10. Keyboard navigation: Arrow keys to navigate slides ── */
     const allSlides = Array.from(document.querySelectorAll('.slide:not(.slide--auto)'));
+    let cachedSlideOffsets = [];
+    function cacheSlideOffsets() {
+      const scrollY = document.body.scrollTop;
+      cachedSlideOffsets = allSlides.map(s => s.getBoundingClientRect().top + scrollY);
+    }
+    cacheSlideOffsets();
+    window.addEventListener('resize', cacheSlideOffsets, { passive: true });
+
     document.addEventListener('keydown', e => {
       if (mobmenu.classList.contains('open')) return;
       if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
@@ -1873,11 +2006,12 @@
     });
 
     function getCurrentSlideIndex() {
+      const scrollY = document.body.scrollTop;
       let closest = 0, minDist = Infinity;
-      allSlides.forEach((s, i) => {
-        const dist = Math.abs(s.getBoundingClientRect().top);
+      for (let i = 0; i < cachedSlideOffsets.length; i++) {
+        const dist = Math.abs(cachedSlideOffsets[i] - scrollY);
         if (dist < minDist) { minDist = dist; closest = i; }
-      });
+      }
       return closest;
     }
 
