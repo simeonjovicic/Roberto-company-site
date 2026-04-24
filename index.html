@@ -292,6 +292,11 @@
       overflow: hidden;
     }
 
+    a.venture-card {
+      color: inherit;
+      cursor: pointer;
+    }
+
     .venture-card:last-child {
       border-right: 1px solid var(--line);
     }
@@ -303,6 +308,7 @@
       background: radial-gradient(ellipse 80% 60% at 50% 120%, rgba(184, 148, 84, .09), transparent);
       opacity: 0;
       transition: opacity .5s;
+      pointer-events: none;
     }
 
     .venture-card:hover::before {
@@ -311,6 +317,11 @@
 
     .venture-card:hover {
       background: var(--bg-2);
+    }
+
+    .venture-card>* {
+      position: relative;
+      z-index: 1;
     }
 
     .vc-n {
@@ -328,6 +339,67 @@
       color: var(--t-0);
       line-height: 1.2;
       margin-top: .5rem;
+    }
+
+    .vc-identity {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1.15rem;
+      min-height: 5rem;
+    }
+
+    .vc-identity .vc-name {
+      margin-top: 0;
+    }
+
+    .vc-copy {
+      min-width: 0;
+    }
+
+    .vc-logo {
+      width: 5.35rem;
+      height: 5.35rem;
+      display: grid;
+      place-items: center;
+      flex: 0 0 5.35rem;
+      padding: .78rem;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 32% 24%, rgba(255, 250, 240, .78) 0%, rgba(244, 239, 230, .66) 48%, rgba(213, 200, 180, .56) 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .42),
+        inset 0 -10px 18px rgba(74, 55, 29, .08),
+        0 12px 24px rgba(0, 0, 0, .24);
+    }
+
+    .vc-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .vc-logo--hotel img {
+      transform: translateY(-3%) scale(1.08);
+    }
+
+    .vc-logo--ristorante img {
+      transform: translateY(-10%) scale(1.16);
+    }
+
+    .vc-logo--consulting img {
+      transform: translateY(-2%) scale(1.08);
+    }
+
+    .vc-logo--supplements img {
+      transform: translateY(-4%) scale(1.08);
+    }
+
+    .vc-logo--wide {
+      width: 5.8rem;
+      height: 5.8rem;
+      flex-basis: 5.8rem;
     }
 
     .vc-cat {
@@ -420,8 +492,24 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid transparent;
-      transition: background .4s var(--ease), border-color .4s var(--ease);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-100%);
+      transition:
+        opacity .35s var(--ease),
+        visibility .35s var(--ease),
+        transform .45s var(--ease),
+        background .4s var(--ease),
+        border-color .4s var(--ease);
       contain: layout style;
+    }
+
+    .nav.visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
     }
 
     .nav.stuck {
@@ -446,11 +534,8 @@
     }
 
     .brand-seal {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--ivory);
-      border: 1px solid var(--line-gold);
+      width: 30px;
+      height: 38px;
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -458,8 +543,8 @@
     .brand-seal img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center 16%;
+      object-fit: contain;
+      object-position: center;
     }
 
     .brand-mark {
@@ -683,12 +768,8 @@
     }
 
     .hero-mark-seal {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--ivory);
-      border: 1px solid var(--line-gold);
-      box-shadow: 0 0 0 5px rgba(184, 148, 84, .04);
+      width: 46px;
+      height: 60px;
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -696,8 +777,8 @@
     .hero-mark-seal img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center 16%;
+      object-fit: contain;
+      object-position: center;
     }
 
     .hero-mark-text {
@@ -1220,8 +1301,8 @@
     }
 
     .footer-brand .brand-seal {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 44px;
     }
 
     .footer-legal {
@@ -1283,8 +1364,8 @@
       }
 
       .hero-mark-seal {
-        width: 52px;
-        height: 52px;
+        width: 58px;
+        height: 76px;
       }
 
       .hero-lede {
@@ -1503,6 +1584,33 @@
       transform: scale(1.25);
     }
 
+    @media (max-width: 899px), (pointer: coarse) {
+      html {
+        overflow: auto;
+        height: auto;
+      }
+
+      body {
+        overflow-y: visible;
+        height: auto;
+        scroll-snap-type: none;
+      }
+
+      .slide {
+        height: auto;
+        min-height: auto;
+        overflow: visible;
+      }
+
+      .hero {
+        min-height: 100svh;
+      }
+
+      .slide-dots {
+        display: none;
+      }
+    }
+
     /* ============================================================
        MOBILE — < 640px
     ============================================================ */
@@ -1552,6 +1660,24 @@
 
       .portfolio-snap-wrap {
         margin-top: 1.5rem;
+      }
+
+      .vc-identity {
+        gap: .85rem;
+        min-height: 4.5rem;
+      }
+
+      .vc-logo {
+        width: 4.8rem;
+        height: 4.8rem;
+        flex-basis: 4.8rem;
+        padding: .7rem;
+      }
+
+      .vc-logo--wide {
+        width: 5.1rem;
+        height: 5.1rem;
+        flex-basis: 5.1rem;
       }
 
       /* Principles — compact 2-col */
@@ -1625,7 +1751,7 @@
     <div class="nav-inner">
       <a href="#top" class="brand" aria-label="D'Atri Company Group — Startseite">
         <div class="brand-seal" aria-hidden="true">
-          <img src="datri_wappen.png" alt="" />
+          <img src="pics/Datri_Family-Wappen.png" alt="" />
         </div>
         <span class="brand-mark">D'<strong>ATRI</strong></span>
       </a>
@@ -1671,7 +1797,7 @@
       <div class="hero-main">
         <div class="hero-mark rv">
           <div class="hero-mark-seal" aria-hidden="true">
-            <img src="datri_wappen.png" alt="Familienwappen D'Atri" />
+            <img src="pics/Datri_Family-Wappen.png" alt="Familienwappen D'Atri" />
           </div>
           <div class="hero-mark-text">
             <span class="wordmark">D'<strong>ATRI</strong> COMPANY GROUP</span>
@@ -1842,54 +1968,82 @@
     <!-- Horizontal Scroll-Snap Cards -->
     <div class="portfolio-snap-wrap" id="portfolioSnap" role="list" aria-label="Unternehmens-Portfolio">
 
-      <article class="venture-card" role="listitem">
+      <a class="venture-card" role="listitem" href="https://www.datri-companygroup.at/petite-suites.html" target="_blank" rel="noopener">
         <span class="vc-n">01</span>
-        <h3 class="vc-name">Datri Petite-Suite</h3>
-        <span class="vc-cat">Boutique-Hotellerie</span>
+        <div class="vc-identity">
+          <div class="vc-logo vc-logo--wide vc-logo--hotel" aria-hidden="true">
+            <img src="pics/Datri_Hotel.png" alt="" />
+          </div>
+          <div class="vc-copy">
+            <h3 class="vc-name">Datri Petite-Suite</h3>
+            <span class="vc-cat">Boutique-Hotellerie</span>
+          </div>
+        </div>
         <span class="vc-arrow">Mehr erfahren</span>
-      </article>
+      </a>
 
-      <article class="venture-card" role="listitem">
+      <a class="venture-card" role="listitem" href="https://www.ilmelograno.at" target="_blank" rel="noopener">
         <span class="vc-n">02</span>
-        <h3 class="vc-name">Ristorante Il Melograno</h3>
-        <span class="vc-cat">Gastronomie &middot; Wien I.</span>
+        <div class="vc-identity">
+          <div class="vc-logo vc-logo--ristorante" aria-hidden="true">
+            <img src="pics/Datri_ilMelograno.png" alt="" />
+          </div>
+          <div class="vc-copy">
+            <h3 class="vc-name">Ristorante Il Melograno</h3>
+            <span class="vc-cat">Gastronomie &middot; Wien I.</span>
+          </div>
+        </div>
         <span class="vc-arrow">Mehr erfahren</span>
-      </article>
+      </a>
 
-      <article class="venture-card" role="listitem">
+      <a class="venture-card" role="listitem" href="https://dartri-boxen.pages.dev" target="_blank" rel="noopener">
         <span class="vc-n">03</span>
         <h3 class="vc-name">Datri Personal Training</h3>
         <span class="vc-cat">Fitness &amp; Coaching</span>
         <span class="vc-arrow">Mehr erfahren</span>
-      </article>
+      </a>
 
-      <article class="venture-card" role="listitem">
+      <a class="venture-card" role="listitem" href="https://www.datri-companygroup.at/datri-consulting.html" target="_blank" rel="noopener">
         <span class="vc-n">04</span>
-        <h3 class="vc-name">Datri Consulting</h3>
-        <span class="vc-cat">Strategieberatung</span>
+        <div class="vc-identity">
+          <div class="vc-logo vc-logo--wide vc-logo--consulting" aria-hidden="true">
+            <img src="pics/Datri_Consulting.png" alt="" />
+          </div>
+          <div class="vc-copy">
+            <h3 class="vc-name">Datri Consulting</h3>
+            <span class="vc-cat">Strategieberatung</span>
+          </div>
+        </div>
         <span class="vc-arrow">Mehr erfahren</span>
-      </article>
+      </a>
 
-      <article class="venture-card" role="listitem">
+      <a class="venture-card" role="listitem" href="https://www.datri-companygroup.at/datri-puglia-tours.html" target="_blank" rel="noopener">
         <span class="vc-n">05</span>
         <h3 class="vc-name">Datri Puglia Tours</h3>
         <span class="vc-cat">Reiseerlebnisse &middot; Süditalien</span>
         <span class="vc-arrow">Mehr erfahren</span>
-      </article>
+      </a>
 
-      <article class="venture-card" role="listitem">
+      <a class="venture-card" role="listitem" href="https://www.datri-companygroup.at/olio-evo-bio.html" target="_blank" rel="noopener">
         <span class="vc-n">06</span>
         <h3 class="vc-name">Datri Olio Evo Bio</h3>
         <span class="vc-cat">Bio-Olivenöl aus Puglia</span>
         <span class="vc-arrow">Mehr erfahren</span>
-      </article>
+      </a>
 
-      <article class="venture-card" role="listitem">
+      <a class="venture-card" role="listitem" href="https://datrisupplements.at" target="_blank" rel="noopener">
         <span class="vc-n">07</span>
-        <h3 class="vc-name">Datri Premium Supplements</h3>
-        <span class="vc-cat">Performance-Nahrungsergänzung</span>
+        <div class="vc-identity">
+          <div class="vc-logo vc-logo--wide vc-logo--supplements" aria-hidden="true">
+            <img src="pics/Datri_Supplements.png" alt="" />
+          </div>
+          <div class="vc-copy">
+            <h3 class="vc-name">Datri Premium Supplements</h3>
+            <span class="vc-cat">Performance-Nahrungsergänzung</span>
+          </div>
+        </div>
         <span class="vc-arrow">Mehr erfahren</span>
-      </article>
+      </a>
 
       <article class="venture-card" role="listitem">
         <span class="vc-n">08</span>
@@ -1905,12 +2059,12 @@
         <span class="vc-arrow">Mehr erfahren</span>
       </article>
 
-      <article class="venture-card" role="listitem">
+      <a class="venture-card" role="listitem" href="https://www.bündnis-kinderschutz.at" target="_blank" rel="noopener">
         <span class="vc-n">10</span>
         <h3 class="vc-name">Bündnis KinderSchutz</h3>
         <span class="vc-cat">Gesellschaftliches Engagement</span>
         <span class="vc-arrow">Mehr erfahren</span>
-      </article>
+      </a>
 
     </div>
 
@@ -2037,7 +2191,7 @@
       <div>
         <div class="footer-brand">
           <div class="brand-seal" aria-hidden="true">
-            <img src="datri_wappen.png" alt="" />
+            <img src="pics/Datri_Family-Wappen.png" alt="" />
           </div>
           <span class="brand-mark">D'<strong>ATRI</strong></span>
         </div>
@@ -2074,10 +2228,20 @@
         }, { passive: true });
       }
 
+      const isTouchLayout = window.matchMedia('(max-width: 899px)').matches || window.matchMedia('(pointer: coarse)').matches;
+      const pageScroller = isTouchLayout ? window : document.body;
+      function getScrollY() {
+        return isTouchLayout ? window.scrollY : document.body.scrollTop;
+      }
+
       /* ── Nav scroll state ── */
       const nav = document.getElementById('nav');
-      const checkNav = () => nav.classList.toggle('stuck', document.body.scrollTop > 24);
-      onScrollThrottled(document.body, checkNav);
+      const checkNav = () => {
+        const hasScrolled = getScrollY() > 24;
+        nav.classList.toggle('visible', hasScrolled);
+        nav.classList.toggle('stuck', hasScrolled);
+      };
+      onScrollThrottled(pageScroller, checkNav);
       checkNav();
 
       /* ── Mobile menu ── */
@@ -2104,6 +2268,15 @@
 
       /* ── Respect reduced motion ── */
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (isTouchLayout || !window.gsap || !window.ScrollTrigger) {
+        document.body.style.scrollSnapType = 'none';
+        document.querySelectorAll('.rv').forEach(el => {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
+        return;
+      }
 
       /* ══════════════════════════════════════════════════════
          GSAP SCROLL-SNAP SLIDE ANIMATIONS
