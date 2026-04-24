@@ -78,6 +78,12 @@
       scroll-snap-type: y mandatory;
     }
 
+    /* Mobile: use normal window scroll so GSAP ScrollTrigger works on iOS */
+    @media (max-width: 639px) {
+      html { overflow: auto; height: auto; }
+      body { overflow-y: visible; height: auto; scroll-snap-type: none; }
+    }
+
     /* Scrollbar */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg-0); }
@@ -1644,10 +1650,17 @@
       }, { passive: true });
     }
 
+    /* ── Unified scroll Y (body scroller on desktop, window on mobile) ── */
+    const isMobile = window.innerWidth < 640;
+    const scrollContainer = isMobile ? window : document.body;
+    function getScrollY() {
+      return isMobile ? window.scrollY : document.body.scrollTop;
+    }
+
     /* ── Nav scroll state ── */
     const nav = document.getElementById('nav');
-    const checkNav = () => nav.classList.toggle('stuck', document.body.scrollTop > 24);
-    onScrollThrottled(document.body, checkNav);
+    const checkNav = () => nav.classList.toggle('stuck', getScrollY() > 24);
+    onScrollThrottled(scrollContainer, checkNav);
     checkNav();
 
     /* ── Mobile menu ── */
@@ -1679,7 +1692,8 @@
        GSAP SCROLL-SNAP SLIDE ANIMATIONS
     ══════════════════════════════════════════════════════ */
     gsap.registerPlugin(ScrollTrigger);
-    ScrollTrigger.defaults({ scroller: document.body });
+    const scroller = scrollContainer;
+    ScrollTrigger.defaults({ scroller });
 
     /* ── Slide indicator dots (right side) ── */
     (function initSlideNav(){
@@ -1704,7 +1718,7 @@
       // Cache slide offsets — recalc on resize only
       let slideOffsets = [];
       function cacheOffsets() {
-        const scrollY = document.body.scrollTop;
+        const scrollY = getScrollY();
         slideOffsets = Array.from(slides).map(s => s.getBoundingClientRect().top + scrollY);
       }
       cacheOffsets();
@@ -1712,8 +1726,7 @@
 
       let active = 0;
       function updateActive() {
-        const scrollY = document.body.scrollTop;
-        const vh = window.innerHeight * 0.5;
+        const scrollY = getScrollY();
         let closest = 0;
         let minDist = Infinity;
         for (let i = 0; i < slideOffsets.length; i++) {
@@ -1727,7 +1740,7 @@
         }
       }
       dots[0]?.classList.add('active');
-      onScrollThrottled(document.body, updateActive);
+      onScrollThrottled(scrollContainer, updateActive);
     })();
 
     /* ── 1. Per-section directional entrance animations ── */
@@ -1739,7 +1752,7 @@
       gsap.set(['.hero-mark', '.hero h1', '.hero-lede'], { opacity: 0, x: -50 });
       gsap.set('.hero-side', { opacity: 0, x: 60 });
       ScrollTrigger.create({
-        trigger: '#top', scroller: document.body, start: 'top 80%', once: true,
+        trigger: '#top', scroller, start: 'top 80%', once: true,
         onEnter: () => {
           gsap.to('.hero-mark', { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out', force3D: true });
           gsap.to('.hero h1', { opacity: 1, x: 0, duration: 1, delay: 0.12, ease: 'power3.out', force3D: true });
@@ -1753,7 +1766,7 @@
       gsap.set('.heritage-attr', { opacity: 0, y: 15 });
       gsap.set('.heritage-body', { opacity: 0, y: 30 });
       ScrollTrigger.create({
-        trigger: '#herkunft', scroller: document.body, start: 'top 60%', once: true,
+        trigger: '#herkunft', scroller, start: 'top 60%', once: true,
         onEnter: () => {
           gsap.to('.heritage-deco', { opacity: 0.78, y: 0, duration: 0.8, ease: 'power2.out', force3D: true });
           gsap.to('.heritage-attr', { opacity: 1, y: 0, duration: 0.7, delay: 0.4, ease: 'power3.out', force3D: true });
@@ -1764,7 +1777,7 @@
       /* — Figures: header from left — */
       gsap.set('.figures-head', { opacity: 0, x: -40 });
       ScrollTrigger.create({
-        trigger: '.figures', scroller: document.body, start: 'top 60%', once: true,
+        trigger: '.figures', scroller, start: 'top 60%', once: true,
         onEnter: () => {
           gsap.to('.figures-head', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
         }
@@ -1774,7 +1787,7 @@
       gsap.set('#sectors-head-text', { opacity: 0, x: -40 });
       gsap.set('#sectors-lede', { opacity: 0, x: 40 });
       ScrollTrigger.create({
-        trigger: '#branchen', scroller: document.body, start: 'top 60%', once: true,
+        trigger: '#branchen', scroller, start: 'top 60%', once: true,
         onEnter: () => {
           gsap.to('#sectors-head-text', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
           gsap.to('#sectors-lede', { opacity: 1, x: 0, duration: 0.8, delay: 0.15, ease: 'power3.out', force3D: true });
@@ -1785,7 +1798,7 @@
       gsap.set('#portfolio-head-text', { opacity: 0, x: -40 });
       gsap.set('#portfolio-lede', { opacity: 0, x: 40 });
       ScrollTrigger.create({
-        trigger: '#portfolio', scroller: document.body, start: 'top 60%', once: true,
+        trigger: '#portfolio', scroller, start: 'top 60%', once: true,
         onEnter: () => {
           gsap.to('#portfolio-head-text', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
           gsap.to('#portfolio-lede', { opacity: 1, x: 0, duration: 0.8, delay: 0.15, ease: 'power3.out', force3D: true });
@@ -1796,7 +1809,7 @@
       gsap.set('#principles-head-text', { opacity: 0, x: -40 });
       gsap.set('#principles-lede', { opacity: 0, x: 40 });
       ScrollTrigger.create({
-        trigger: '#grundsaetze', scroller: document.body, start: 'top 60%', once: true,
+        trigger: '#grundsaetze', scroller, start: 'top 60%', once: true,
         onEnter: () => {
           gsap.to('#principles-head-text', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
           gsap.to('#principles-lede', { opacity: 1, x: 0, duration: 0.8, delay: 0.15, ease: 'power3.out', force3D: true });
@@ -1809,7 +1822,7 @@
       gsap.set(locHeader, { opacity: 0, x: -40 });
       gsap.set(locItems, { opacity: 0, x: 50 });
       ScrollTrigger.create({
-        trigger: '#standorte', scroller: document.body, start: 'top 60%', once: true,
+        trigger: '#standorte', scroller, start: 'top 60%', once: true,
         onEnter: () => {
           gsap.to(locHeader, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
           gsap.to(locItems, { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', stagger: 0.12, delay: 0.2, force3D: true });
@@ -1822,7 +1835,7 @@
       gsap.set(contactHeader, { opacity: 0, x: -40 });
       gsap.set(contactRows, { opacity: 0, x: 50 });
       ScrollTrigger.create({
-        trigger: '#kontakt', scroller: document.body, start: 'top 60%', once: true,
+        trigger: '#kontakt', scroller, start: 'top 60%', once: true,
         onEnter: () => {
           gsap.to(contactHeader, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
           gsap.to(contactRows, { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1, delay: 0.15, force3D: true });
@@ -1838,7 +1851,7 @@
       countEls.forEach(el => { el.textContent = '0'; });
       ScrollTrigger.create({
         trigger: figSlide || countEls[0],
-        scroller: document.body,
+        scroller,
         start: 'top 60%',
         once: true,
         onEnter: () => {
@@ -1863,7 +1876,7 @@
       gsap.set(sectorsLine, { width: 0 });
       ScrollTrigger.create({
         trigger: sectorsLine.closest('.slide'),
-        scroller: document.body,
+        scroller,
         start: 'top 60%',
         once: true,
         onEnter: () => {
@@ -1878,7 +1891,7 @@
       gsap.set(sectorItems, { opacity: 0, x: -30 });
       ScrollTrigger.create({
         trigger: '#branchen',
-        scroller: document.body,
+        scroller,
         start: 'top 60%',
         once: true,
         onEnter: () => {
@@ -1898,7 +1911,7 @@
       gsap.set('.heritage-quote', { scale: 0.92, opacity: 0 });
       ScrollTrigger.create({
         trigger: '#herkunft',
-        scroller: document.body,
+        scroller,
         start: 'top 60%',
         once: true,
         onEnter: () => {
@@ -1912,7 +1925,7 @@
       gsap.set('.fig', { y: 40, opacity: 0 });
       ScrollTrigger.create({
         trigger: '.figures-grid',
-        scroller: document.body,
+        scroller,
         start: 'top 80%',
         once: true,
         onEnter: () => {
@@ -1926,7 +1939,7 @@
       gsap.set('.venture-card', { x: 60, opacity: 0 });
       ScrollTrigger.create({
         trigger: '#portfolio',
-        scroller: document.body,
+        scroller,
         start: 'top 60%',
         once: true,
         onEnter: () => {
@@ -1940,7 +1953,7 @@
       gsap.set('#grundsaetze .principle', { y: 30, opacity: 0 });
       ScrollTrigger.create({
         trigger: '#grundsaetze',
-        scroller: document.body,
+        scroller,
         start: 'top 60%',
         once: true,
         onEnter: () => {
@@ -1985,7 +1998,7 @@
     const allSlides = Array.from(document.querySelectorAll('.slide:not(.slide--auto)'));
     let cachedSlideOffsets = [];
     function cacheSlideOffsets() {
-      const scrollY = document.body.scrollTop;
+      const scrollY = getScrollY();
       cachedSlideOffsets = allSlides.map(s => s.getBoundingClientRect().top + scrollY);
     }
     cacheSlideOffsets();
@@ -2006,7 +2019,7 @@
     });
 
     function getCurrentSlideIndex() {
-      const scrollY = document.body.scrollTop;
+      const scrollY = getScrollY();
       let closest = 0, minDist = Infinity;
       for (let i = 0; i < cachedSlideOffsets.length; i++) {
         const dist = Math.abs(cachedSlideOffsets[i] - scrollY);
