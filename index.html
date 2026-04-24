@@ -59,8 +59,9 @@
     }
 
     html {
-      scroll-behavior: smooth;
       font-size: 16px;
+      height: 100%;
+      overflow: hidden;
     }
 
     body {
@@ -72,6 +73,10 @@
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+      overflow-y: auto;
+      height: 100%;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
     }
 
     /* Scrollbar */
@@ -98,6 +103,27 @@
     .section {
       padding: var(--sect-y) 0;
       position: relative;
+    }
+
+    /* ============================================================
+       FULL-PAGE SCROLL-SNAP SLIDES
+    ============================================================ */
+    .slide {
+      height: 100svh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+    /* Footer slide — auto height, snaps at end */
+    .slide--auto {
+      height: auto;
+      min-height: auto;
+      scroll-snap-align: end;
+      overflow: visible;
     }
 
     .rule {
@@ -296,63 +322,7 @@
       transform: scale(1.4);
     }
 
-    /* ============================================================
-       SCROLLYTELLING — PRINCIPLES PIN
-    ============================================================ */
-    .principles-story {
-      position: relative;
-    }
-    .principles-sticky-wrap {
-      /* GSAP will pin this */
-      display: flex;
-      align-items: stretch;
-    }
-    .principles-sidebar {
-      width: 42%;
-      flex-shrink: 0;
-      padding: var(--sect-y) var(--gutter) var(--sect-y) 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .principles-panels {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .pstory-panel {
-      min-height: 50vh;
-      display: flex;
-      align-items: center;
-      padding: 3rem 0;
-      opacity: 0;
-      transform: translateX(32px);
-    }
-
-    /* Progress bar */
-    .principles-progress {
-      position: absolute;
-      left: 42%;
-      top: 0;
-      width: 1px;
-      height: 100%;
-      background: var(--line);
-    }
-    .principles-progress-bar {
-      width: 1px;
-      height: 0%;
-      background: linear-gradient(to bottom, var(--gold), var(--gold-bright));
-      transition: height .1s linear;
-    }
-
-    /* Mobile: stack normally */
-    @media (max-width: 768px) {
-      .principles-sidebar { width: 100%; padding-bottom: 2rem; }
-      .principles-sticky-wrap { flex-direction: column; }
-      .principles-panels { padding-top: 0; }
-      .pstory-panel { min-height: auto; opacity: 1; transform: none; padding: 1.5rem 0; }
-      .principles-progress { display: none; }
-    }
+    /* (scrollytelling removed — principles now use grid within a slide) */
 
     /* ============================================================
        GSAP STRIP — animated gold line across sections
@@ -548,12 +518,8 @@
        HERO
     ============================================================ */
     .hero {
-      padding: 8.5rem var(--gutter) 4rem;
+      padding: 5rem var(--gutter) 3rem;
       position: relative;
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
     }
     .hero-bg {
       position: absolute;
@@ -1073,8 +1039,7 @@
        RESPONSIVE — ≥ 640px
     ============================================================ */
     @media (min-width: 640px) {
-      :root { --gutter: 2rem; --sect-y: 5.5rem; }
-      .hero { padding: 9rem 2rem 5rem; }
+      :root { --gutter: 2rem; --sect-y: 3rem; }
       .hero-meta { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
       .figures-grid { grid-template-columns: repeat(4, 1fr); }
       .principles-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1086,11 +1051,10 @@
        RESPONSIVE — ≥ 900px
     ============================================================ */
     @media (min-width: 900px) {
-      :root { --gutter: 2.5rem; --sect-y: 7rem; }
+      :root { --gutter: 2.5rem; --sect-y: 4rem; }
       .nav-links { display: flex; }
       .burger { display: none; }
 
-      .hero { padding: 10rem 2.5rem 6rem; }
       .hero-inner { display: grid; grid-template-columns: 1.4fr 1fr; gap: 5rem; align-items: center; }
       .hero-side { border-left: 1px solid var(--line); padding-left: 3rem; }
       .hero-mark { margin-bottom: 0; }
@@ -1130,13 +1094,51 @@
       .principles-grid { grid-template-columns: repeat(4, 1fr); }
     }
 
+    /* ============================================================
+       SLIDE NAV DOTS (right edge)
+    ============================================================ */
+    .slide-dots {
+      position: fixed;
+      right: 1.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 90;
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+    }
+    .slide-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--line-strong);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: background .3s, transform .3s var(--ease), box-shadow .3s;
+    }
+    .slide-dot.active {
+      background: var(--gold);
+      transform: scale(1.5);
+      box-shadow: 0 0 8px rgba(184, 148, 84, .35);
+    }
+    .slide-dot:hover:not(.active) {
+      background: var(--t-2);
+      transform: scale(1.25);
+    }
+
+    /* Hide slide dots on small screens */
+    @media (max-width: 639px) {
+      .slide-dots { display: none; }
+    }
+
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
       .rv { opacity: 1; transform: none; transition: none; }
       .hero-scroll::after { animation: none; }
       * { scroll-behavior: auto !important; }
+      body { scroll-snap-type: none !important; }
       .sector-list li { clip-path: none !important; }
-      .pstory-panel { opacity: 1 !important; transform: none !important; }
     }
   </style>
 </head>
@@ -1186,7 +1188,7 @@
   </div>
 
   <!-- ==================== HERO ==================== -->
-  <section class="hero" id="top" aria-label="Startbereich">
+  <section class="hero slide" id="top" aria-label="Startbereich">
     <div class="hero-bg" aria-hidden="true"></div>
 
     <div class="hero-inner">
@@ -1236,7 +1238,7 @@
   </section>
 
   <!-- ==================== HERITAGE ==================== -->
-  <section class="section heritage" id="herkunft" aria-labelledby="heritage-h">
+  <section class="section heritage slide" id="herkunft" aria-labelledby="heritage-h">
     <div class="wrap">
       <p class="heritage-deco rv" aria-hidden="true">— La Famiglia —</p>
 
@@ -1264,7 +1266,7 @@
   </section>
 
   <!-- ==================== FIGURES ==================== -->
-  <section class="section figures" aria-label="Kennzahlen">
+  <section class="section figures slide" aria-label="Kennzahlen">
     <div class="wrap">
       <header class="figures-head rv">
         <p class="eyebrow">Auf einen Blick</p>
@@ -1297,7 +1299,7 @@
   </section>
 
   <!-- ==================== SECTORS / BRANCHEN ==================== -->
-  <section class="section sectors" id="branchen" aria-labelledby="sectors-h">
+  <section class="section sectors slide" id="branchen" aria-labelledby="sectors-h">
     <div class="wrap">
       <header class="sectors-head">
         <div class="rv" id="sectors-head-text">
@@ -1344,7 +1346,7 @@
   </section>
 
   <!-- ==================== PORTFOLIO — Scroll Snap Carousel ==================== -->
-  <section class="section portfolio" id="portfolio" aria-labelledby="portfolio-h">
+  <section class="section portfolio slide" id="portfolio" aria-labelledby="portfolio-h">
     <div class="wrap">
       <header class="portfolio-head">
         <div class="rv" id="portfolio-head-text">
@@ -1440,7 +1442,7 @@
   </section>
 
   <!-- ==================== PRINCIPLES — Scrollytelling ==================== -->
-  <section class="section principles principles-story" id="grundsaetze" aria-labelledby="principles-h">
+  <section class="section principles slide" id="grundsaetze" aria-labelledby="principles-h">
     <div class="wrap">
 
       <!-- Mobile header (always visible) -->
@@ -1455,66 +1457,34 @@
         </p>
       </header>
 
-      <!-- Desktop Scrollytelling layout -->
-      <div class="principles-sticky-wrap" id="principlesStickyWrap">
-
-        <!-- Left sticky sidebar (pinned by GSAP) -->
-        <div class="principles-sidebar" id="principlesSidebar">
-          <!-- Animated counter showing current principle -->
-          <p class="eyebrow" style="margin-bottom:1.25rem">Grundsätze</p>
-          <div id="p-counter" style="font-family:var(--ff-serif);font-size:clamp(4rem,10vw,7rem);font-weight:400;color:var(--gold);opacity:.12;line-height:1;user-select:none">I.</div>
-          <h3 id="p-title" style="font-family:var(--ff-serif);font-size:clamp(1.4rem,3vw,2rem);font-weight:400;color:var(--t-0);margin-top:1rem;line-height:1.2">Familie zuerst</h3>
-          <p id="p-desc" style="margin-top:1rem;font-size:.92rem;line-height:1.75;color:var(--t-1);max-width:32ch">Jedes Unternehmen wird geführt, als gehöre es zur Familie &mdash; weil es das tut.</p>
+      <div class="principles-grid rv d1">
+        <div class="principle">
+          <span class="principle-k">I.</span>
+          <h3 class="principle-h">Familie zuerst</h3>
+          <p class="principle-p">Jedes Unternehmen wird geführt, als gehöre es zur Familie &mdash; weil es das tut.</p>
         </div>
-
-        <!-- Progress bar -->
-        <div class="principles-progress" aria-hidden="true">
-          <div class="principles-progress-bar" id="principlesProgressBar"></div>
+        <div class="principle">
+          <span class="principle-k">II.</span>
+          <h3 class="principle-h">Qualität ohne Kompromiss</h3>
+          <p class="principle-p">Wir bauen keine schnellen Produkte. Wir bauen Häuser, die Bestand haben.</p>
         </div>
-
-        <!-- Right scrollable panels -->
-        <div class="principles-panels" id="principlesPanels">
-
-          <div class="pstory-panel" id="pstory-0" data-roman="I." data-title="Familie zuerst" data-desc="Jedes Unternehmen wird geführt, als gehöre es zur Familie — weil es das tut.">
-            <div class="principle" style="width:100%;border:1px solid var(--line);background:var(--bg-0)">
-              <span class="principle-k">I.</span>
-              <h3 class="principle-h">Familie zuerst</h3>
-              <p class="principle-p">Jedes Unternehmen wird geführt, als gehöre es zur Familie &mdash; weil es das tut.</p>
-            </div>
-          </div>
-
-          <div class="pstory-panel" id="pstory-1" data-roman="II." data-title="Qualität ohne Kompromiss" data-desc="Wir bauen keine schnellen Produkte. Wir bauen Häuser, die Bestand haben.">
-            <div class="principle" style="width:100%;border:1px solid var(--line);background:var(--bg-0)">
-              <span class="principle-k">II.</span>
-              <h3 class="principle-h">Qualität ohne Kompromiss</h3>
-              <p class="principle-p">Wir bauen keine schnellen Produkte. Wir bauen Häuser, die Bestand haben.</p>
-            </div>
-          </div>
-
-          <div class="pstory-panel" id="pstory-2" data-roman="III." data-title="Italienische Handschrift" data-desc="Unsere Wurzeln prägen Ästhetik, Material und Umgang — sichtbar und spürbar.">
-            <div class="principle" style="width:100%;border:1px solid var(--line);background:var(--bg-0)">
-              <span class="principle-k">III.</span>
-              <h3 class="principle-h">Italienische Handschrift</h3>
-              <p class="principle-p">Unsere Wurzeln prägen Ästhetik, Material und Umgang &mdash; sichtbar und spürbar.</p>
-            </div>
-          </div>
-
-          <div class="pstory-panel" id="pstory-3" data-roman="IV." data-title="Diskretion &amp; Service" data-desc="Wer uns vertraut, erwartet zurückhaltende Professionalität. Das ist unser Standard.">
-            <div class="principle" style="width:100%;border:1px solid var(--line);background:var(--bg-0)">
-              <span class="principle-k">IV.</span>
-              <h3 class="principle-h">Diskretion &amp; Service</h3>
-              <p class="principle-p">Wer uns vertraut, erwartet zurückhaltende Professionalität. Das ist unser Standard.</p>
-            </div>
-          </div>
-
-        </div><!-- /principles-panels -->
-      </div><!-- /principles-sticky-wrap -->
+        <div class="principle">
+          <span class="principle-k">III.</span>
+          <h3 class="principle-h">Italienische Handschrift</h3>
+          <p class="principle-p">Unsere Wurzeln prägen Ästhetik, Material und Umgang &mdash; sichtbar und spürbar.</p>
+        </div>
+        <div class="principle">
+          <span class="principle-k">IV.</span>
+          <h3 class="principle-h">Diskretion &amp; Service</h3>
+          <p class="principle-p">Wer uns vertraut, erwartet zurückhaltende Professionalität. Das ist unser Standard.</p>
+        </div>
+      </div>
 
     </div>
   </section>
 
   <!-- ==================== LOCATIONS ==================== -->
-  <section class="section locations" id="standorte" aria-labelledby="loc-h">
+  <section class="section locations slide" id="standorte" aria-labelledby="loc-h">
     <div class="wrap">
       <header class="rv">
         <p class="eyebrow">Standorte</p>
@@ -1542,7 +1512,7 @@
   </section>
 
   <!-- ==================== CONTACT ==================== -->
-  <section class="section contact" id="kontakt" aria-labelledby="kontakt-h">
+  <section class="section contact slide" id="kontakt" aria-labelledby="kontakt-h">
     <div class="wrap">
       <header class="rv">
         <p class="eyebrow">Kontakt</p>
@@ -1579,7 +1549,7 @@
   </section>
 
   <!-- ==================== FOOTER ==================== -->
-  <footer class="footer" role="contentinfo">
+  <footer class="footer slide slide--auto" role="contentinfo">
     <div class="footer-inner">
       <div>
         <div class="footer-brand">
@@ -1612,8 +1582,8 @@
 
     /* ── Nav scroll state ── */
     const nav = document.getElementById('nav');
-    const onScroll = () => nav.classList.toggle('stuck', window.scrollY > 24);
-    window.addEventListener('scroll', onScroll, { passive: true });
+    const onScroll = () => nav.classList.toggle('stuck', document.body.scrollTop > 24);
+    document.body.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
     /* ── Mobile menu ── */
@@ -1624,78 +1594,113 @@
       burger.classList.add('open'); mobmenu.classList.add('open');
       burger.setAttribute('aria-expanded', 'true');
       mobmenu.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflowY = 'hidden';
+      document.body.style.scrollSnapType = 'none';
     }
     function closeMenu() {
       burger.classList.remove('open'); mobmenu.classList.remove('open');
       burger.setAttribute('aria-expanded', 'false');
       mobmenu.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
+      document.body.style.overflowY = '';
+      document.body.style.scrollSnapType = '';
     }
     burger.addEventListener('click', () => (mobmenu.classList.contains('open') ? closeMenu : openMenu)());
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+    // make closeMenu available globally for inline onclick
+    window.closeMenu = closeMenu;
 
     /* ── Respect reduced motion ── */
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     /* ══════════════════════════════════════════════════════
-       GSAP SCROLL ANIMATIONS
+       GSAP SCROLL-SNAP SLIDE ANIMATIONS
     ══════════════════════════════════════════════════════ */
     gsap.registerPlugin(ScrollTrigger);
 
-    /* ── 1. Hero parallax scrub ── */
-    if (!prefersReduced) {
-      gsap.to('.hero-main', {
-        yPercent: -18,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.2
-        }
-      });
-      gsap.to('.hero-side', {
-        yPercent: -8,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.8
-        }
-      });
-    }
+    // Tell GSAP that the scroll container is <body>, not <html>
+    ScrollTrigger.defaults({ scroller: document.body });
 
-    /* ── 2. Reveal (.rv) — driven by GSAP instead of CSS transition ── */
-    document.querySelectorAll('.rv').forEach((el, i) => {
-      if (prefersReduced) { gsap.set(el, { opacity: 1, y: 0 }); return; }
-      const delay = parseFloat(getComputedStyle(el).transitionDelay) || 0;
-      gsap.fromTo(el,
-        { opacity: 0, y: 22 },
-        {
-          opacity: 1, y: 0,
-          duration: 0.9,
-          delay: delay,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 92%',
-            toggleActions: 'play none none none'
-          }
+    /* ── Slide indicator dots (right side) ── */
+    (function initSlideNav(){
+      const slides = document.querySelectorAll('.slide:not(.slide--auto)');
+      const dotWrap = document.createElement('div');
+      dotWrap.className = 'slide-dots';
+      dotWrap.setAttribute('aria-label', 'Folien-Navigation');
+      document.body.appendChild(dotWrap);
+
+      const dots = [];
+      slides.forEach((slide, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'slide-dot';
+        dot.setAttribute('aria-label', slide.getAttribute('aria-label') || slide.getAttribute('aria-labelledby') || `Folie ${i+1}`);
+        dot.addEventListener('click', () => {
+          slide.scrollIntoView({ behavior: 'smooth' });
+        });
+        dotWrap.appendChild(dot);
+        dots.push(dot);
+      });
+
+      // Highlight active dot on scroll
+      let active = 0;
+      function updateActive() {
+        const vh = window.innerHeight;
+        let closest = 0;
+        let minDist = Infinity;
+        slides.forEach((s, i) => {
+          const r = s.getBoundingClientRect();
+          const dist = Math.abs(r.top);
+          if (dist < minDist) { minDist = dist; closest = i; }
+        });
+        if (closest !== active) {
+          dots[active]?.classList.remove('active');
+          dots[closest]?.classList.add('active');
+          active = closest;
         }
-      );
+      }
+      dots[0]?.classList.add('active');
+      document.body.addEventListener('scroll', updateActive, { passive: true });
+    })();
+
+    /* ── 1. Per-slide entrance animations ── */
+    document.querySelectorAll('.slide').forEach(slide => {
+      // Find all .rv elements inside this slide
+      const reveals = slide.querySelectorAll('.rv');
+
+      if (prefersReduced) {
+        reveals.forEach(el => gsap.set(el, { opacity: 1, y: 0 }));
+        return;
+      }
+
+      reveals.forEach(el => {
+        const delay = parseFloat(getComputedStyle(el).transitionDelay) || 0;
+        gsap.fromTo(el,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1, y: 0,
+            duration: 0.85,
+            delay: delay,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: slide,
+              scroller: document.body,
+              start: 'top 60%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
+      });
     });
 
-    /* ── 3. Counter animation (figures) ── */
+    /* ── 2. Counter animation (figures) ── */
     document.querySelectorAll('[data-count]').forEach(el => {
       const end = parseInt(el.dataset.count, 10);
       if (isNaN(end)) return;
       const obj = { val: 0 };
       el.textContent = '0';
       ScrollTrigger.create({
-        trigger: el,
-        start: 'top 80%',
+        trigger: el.closest('.slide') || el,
+        scroller: document.body,
+        start: 'top 60%',
         once: true,
         onEnter: () => {
           gsap.to(obj, {
@@ -1708,7 +1713,7 @@
       });
     });
 
-    /* ── 4. Animated gold line (sectors) ── */
+    /* ── 3. Animated gold line (sectors) ── */
     const sectorsLine = document.getElementById('sectors-line');
     if (sectorsLine && !prefersReduced) {
       gsap.fromTo(sectorsLine,
@@ -1718,14 +1723,15 @@
           duration: 1.2,
           ease: 'power2.out',
           scrollTrigger: {
-            trigger: sectorsLine,
-            start: 'top 85%'
+            trigger: sectorsLine.closest('.slide'),
+            scroller: document.body,
+            start: 'top 60%'
           }
         }
       );
     }
 
-    /* ── 5. Sector list — staggered clip-path reveal ── */
+    /* ── 4. Sector list — staggered clip-path reveal ── */
     const sectorItems = document.querySelectorAll('#sector-list li');
     if (!prefersReduced && sectorItems.length) {
       gsap.fromTo(sectorItems,
@@ -1735,10 +1741,11 @@
           opacity: 1,
           duration: 0.85,
           ease: 'power3.out',
-          stagger: 0.12,
+          stagger: 0.1,
           scrollTrigger: {
-            trigger: '#sector-list',
-            start: 'top 80%'
+            trigger: '#branchen',
+            scroller: document.body,
+            start: 'top 60%'
           }
         }
       );
@@ -1746,54 +1753,78 @@
       sectorItems.forEach(el => { el.style.clipPath = 'none'; el.style.opacity = '1'; });
     }
 
-    /* ── 6. Heritage quote scrub scale ── */
+    /* ── 5. Heritage quote scale-in ── */
     if (!prefersReduced) {
       gsap.fromTo('.heritage-quote',
-        { scale: 0.94, opacity: 0.4 },
+        { scale: 0.9, opacity: 0 },
         {
           scale: 1, opacity: 1,
-          ease: 'none',
+          duration: 1,
+          ease: 'power2.out',
           scrollTrigger: {
-            trigger: '.heritage',
-            start: 'top 70%',
-            end: 'center 40%',
-            scrub: 1.5
+            trigger: '#herkunft',
+            scroller: document.body,
+            start: 'top 60%'
           }
         }
       );
     }
 
-    /* ── 7. Figures grid — stagger from below ── */
-    gsap.fromTo('.fig',
-      { y: 40, opacity: 0 },
-      {
-        y: 0, opacity: 1,
-        duration: 0.7,
-        ease: 'power3.out',
-        stagger: 0.11,
-        scrollTrigger: {
-          trigger: '.figures-grid',
-          start: 'top 82%'
+    /* ── 6. Figures grid — stagger from below ── */
+    if (!prefersReduced) {
+      gsap.fromTo('.fig',
+        { y: 40, opacity: 0 },
+        {
+          y: 0, opacity: 1,
+          duration: 0.7,
+          ease: 'power3.out',
+          stagger: 0.11,
+          scrollTrigger: {
+            trigger: '.figures-grid',
+            scroller: document.body,
+            start: 'top 80%'
+          }
         }
-      }
-    );
+      );
+    }
 
-    /* ── 8. Portfolio cards animate in from right ── */
-    gsap.fromTo('.venture-card',
-      { x: 60, opacity: 0 },
-      {
-        x: 0, opacity: 1,
-        duration: 0.75,
-        ease: 'power3.out',
-        stagger: 0.08,
-        scrollTrigger: {
-          trigger: '#portfolioSnap',
-          start: 'top 85%'
+    /* ── 7. Portfolio cards animate in from right ── */
+    if (!prefersReduced) {
+      gsap.fromTo('.venture-card',
+        { x: 60, opacity: 0 },
+        {
+          x: 0, opacity: 1,
+          duration: 0.75,
+          ease: 'power3.out',
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: '#portfolio',
+            scroller: document.body,
+            start: 'top 60%'
+          }
         }
-      }
-    );
+      );
+    }
 
-    /* ── 9. Scroll-Snap dot indicators ── */
+    /* ── 8. Principles grid — staggered reveal ── */
+    if (!prefersReduced) {
+      gsap.fromTo('#grundsaetze .principle',
+        { y: 30, opacity: 0 },
+        {
+          y: 0, opacity: 1,
+          duration: 0.7,
+          ease: 'power3.out',
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: '#grundsaetze',
+            scroller: document.body,
+            start: 'top 60%'
+          }
+        }
+      );
+    }
+
+    /* ── 9. Scroll-Snap dot indicators (portfolio carousel) ── */
     (function initSnapDots(){
       const wrap  = document.getElementById('portfolioSnap');
       const dotsC = document.getElementById('snapDots');
@@ -1803,7 +1834,7 @@
       cards.forEach((_, i) => {
         const d = document.createElement('button');
         d.className = 'snap-dot';
-        d.setAttribute('aria-label', `Unternehmen ${i+1}`);
+        d.setAttribute('aria-label', 'Unternehmen ' + (i+1));
         d.addEventListener('click', () => {
           cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
         });
@@ -1825,85 +1856,30 @@
       wrap.addEventListener('scroll', updateDots, { passive: true });
     })();
 
-    /* ── 10. SCROLLYTELLING — Principles pin ── */
-    (function initPrinciplesScrollytelling(){
-      const isDesktop = window.innerWidth > 768;
-      if (!isDesktop || prefersReduced) {
-        // On mobile just reveal panels normally
-        document.querySelectorAll('.pstory-panel').forEach(p => {
-          gsap.set(p, { opacity: 1, x: 0 });
-        });
-        return;
+    /* ── 10. Keyboard navigation: Arrow keys to navigate slides ── */
+    const allSlides = Array.from(document.querySelectorAll('.slide:not(.slide--auto)'));
+    document.addEventListener('keydown', e => {
+      if (mobmenu.classList.contains('open')) return;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        const curr = getCurrentSlideIndex();
+        if (curr < allSlides.length - 1) allSlides[curr + 1].scrollIntoView({ behavior: 'smooth' });
       }
-
-      const panels   = Array.from(document.querySelectorAll('.pstory-panel'));
-      const sidebar  = document.getElementById('principlesSidebar');
-      const pbar     = document.getElementById('principlesProgressBar');
-      const pCounter = document.getElementById('p-counter');
-      const pTitle   = document.getElementById('p-title');
-      const pDesc    = document.getElementById('p-desc');
-      const wrap     = document.getElementById('principlesStickyWrap');
-
-      if (!panels.length || !sidebar) return;
-
-      // Pin the sidebar for the height of the panels
-      ScrollTrigger.create({
-        trigger: wrap,
-        start: 'top top+=60',
-        end: () => `+=${wrap.offsetHeight - sidebar.offsetHeight}`,
-        pin: sidebar,
-        pinSpacing: false
-      });
-
-      // Animate each panel in as it enters
-      panels.forEach((panel, i) => {
-        const data = panel.dataset;
-
-        ScrollTrigger.create({
-          trigger: panel,
-          start: 'top 60%',
-          end: 'bottom 40%',
-          onEnter: () => {
-            gsap.to(panel, { opacity: 1, x: 0, duration: 0.65, ease: 'power3.out' });
-            updateSidebar(data.roman, data.title, data.desc, i);
-          },
-          onEnterBack: () => {
-            gsap.to(panel, { opacity: 1, x: 0, duration: 0.45, ease: 'power3.out' });
-            updateSidebar(data.roman, data.title, data.desc, i);
-          },
-          onLeave:     () => gsap.to(panel, { opacity: 0.3, x: 0, duration: 0.4 }),
-          onLeaveBack: () => gsap.to(panel, { opacity: 0.3, x: 32, duration: 0.4 })
-        });
-
-        // Progress bar scrub
-        ScrollTrigger.create({
-          trigger: wrap,
-          start: 'top top+=60',
-          end: () => `+=${wrap.offsetHeight - sidebar.offsetHeight}`,
-          scrub: true,
-          onUpdate: (self) => {
-            if (pbar) pbar.style.height = (self.progress * 100) + '%';
-          }
-        });
-      });
-
-      function updateSidebar(roman, title, desc, idx) {
-        if (!pCounter || !pTitle || !pDesc) return;
-        gsap.to([pCounter, pTitle, pDesc], {
-          opacity: 0, y: -8, duration: 0.2,
-          onComplete: () => {
-            pCounter.textContent = roman;
-            pTitle.textContent   = title;
-            pDesc.innerHTML      = desc;
-            gsap.to([pCounter, pTitle, pDesc], { opacity: 1, y: 0, duration: 0.35, stagger: 0.06, ease: 'power2.out' });
-          }
-        });
-        if (pCounter) gsap.to(pCounter, { opacity: 0.12 + idx * 0.06, duration: 0.4, delay: 0.25 });
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const curr = getCurrentSlideIndex();
+        if (curr > 0) allSlides[curr - 1].scrollIntoView({ behavior: 'smooth' });
       }
+    });
 
-      // Init first panel
-      gsap.set(panels[0], { opacity: 1, x: 0 });
-    })();
+    function getCurrentSlideIndex() {
+      let closest = 0, minDist = Infinity;
+      allSlides.forEach((s, i) => {
+        const dist = Math.abs(s.getBoundingClientRect().top);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      return closest;
+    }
 
   })();
   </script>
