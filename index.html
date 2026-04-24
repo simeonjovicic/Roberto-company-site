@@ -272,6 +272,60 @@
       line-height: 1.2;
       margin-top: .5rem;
     }
+    .vc-identity {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1.15rem;
+      min-height: 5rem;
+    }
+    .vc-identity .vc-name {
+      margin-top: 0;
+    }
+    .vc-copy {
+      min-width: 0;
+    }
+    .vc-logo {
+      width: 5.35rem;
+      height: 5.35rem;
+      display: grid;
+      place-items: center;
+      flex: 0 0 5.35rem;
+      padding: .78rem;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 32% 24%, rgba(255, 250, 240, .78) 0%, rgba(244, 239, 230, .66) 48%, rgba(213, 200, 180, .56) 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .42),
+        inset 0 -10px 18px rgba(74, 55, 29, .08),
+        0 12px 24px rgba(0, 0, 0, .24);
+    }
+    .vc-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+    .vc-logo--hotel img {
+      transform: translateY(-3%) scale(1.08);
+    }
+    .vc-logo--ristorante img {
+      transform: translateY(-10%) scale(1.16);
+    }
+    .vc-logo--consulting img {
+      transform: translateY(-2%) scale(1.08);
+    }
+    .vc-logo--supplements img {
+      transform: translateY(-4%) scale(1.08);
+    }
+    .vc-logo--wide {
+      width: 5.8rem;
+      height: 5.8rem;
+      flex-basis: 5.8rem;
+    }
+    .vc-logo--ristorante img {
+      object-position: center 45%;
+    }
     .vc-cat {
       font-size: .68rem;
       letter-spacing: .18em;
@@ -371,19 +425,16 @@
       gap: .65rem;
     }
     .brand-seal {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--ivory);
-      border: 1px solid var(--line-gold);
+      width: 30px;
+      height: 38px;
       overflow: hidden;
       flex-shrink: 0;
     }
     .brand-seal img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center 16%;
+      object-fit: contain;
+      object-position: center;
     }
     .brand-mark {
       font-family: var(--ff-serif);
@@ -547,20 +598,16 @@
       margin-bottom: 1.5rem;
     }
     .hero-mark-seal {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--ivory);
-      border: 1px solid var(--line-gold);
-      box-shadow: 0 0 0 5px rgba(184, 148, 84, .04);
+      width: 46px;
+      height: 60px;
       overflow: hidden;
       flex-shrink: 0;
     }
     .hero-mark-seal img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center 16%;
+      object-fit: contain;
+      object-position: center;
     }
     .hero-mark-text {
       display: flex;
@@ -1008,7 +1055,7 @@
       align-items: center;
       gap: .65rem;
     }
-    .footer-brand .brand-seal { width: 32px; height: 32px; }
+    .footer-brand .brand-seal { width: 34px; height: 44px; }
     .footer-legal {
       display: flex;
       flex-wrap: wrap;
@@ -1047,7 +1094,7 @@
       .slide { height: 100svh; overflow: hidden; }
       .hero { padding: 5rem var(--gutter) 3rem; }
       .hero-mark { margin-bottom: 2.5rem; }
-      .hero-mark-seal { width: 52px; height: 52px; }
+      .hero-mark-seal { width: 58px; height: 76px; }
       .hero-lede { margin-top: 2rem; }
       .hero-meta { margin-top: 3rem; padding-top: 1.5rem; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
       .heritage-deco { font-size: clamp(2rem, 6vw, 3.5rem); margin-bottom: 2rem; }
@@ -1171,6 +1218,9 @@
       /* Portfolio cards — wider on mobile */
       .venture-card { flex: 0 0 82vw; padding: 1.75rem 1.5rem; }
       .portfolio-snap-wrap { margin-top: 1.5rem; }
+      .vc-identity { gap: .85rem; min-height: 4.5rem; }
+      .vc-logo { width: 4.8rem; height: 4.8rem; flex-basis: 4.8rem; padding: .7rem; }
+      .vc-logo--wide { width: 5.1rem; height: 5.1rem; flex-basis: 5.1rem; }
 
       /* Principles — compact 2-col */
       .principle-h { font-size: 1.05rem; }
@@ -1208,7 +1258,7 @@
     <div class="nav-inner">
       <a href="#top" class="brand" aria-label="D'Atri Company Group — Startseite">
         <div class="brand-seal" aria-hidden="true">
-          <img src="datri_wappen.png" alt=""/>
+          <img src="pics/Datri_Family-Wappen.png" alt=""/>
         </div>
         <span class="brand-mark">D'<strong>ATRI</strong></span>
       </a>
@@ -1254,7 +1304,7 @@
       <div class="hero-main">
         <div class="hero-mark rv">
           <div class="hero-mark-seal" aria-hidden="true">
-            <img src="datri_wappen.png" alt="Familienwappen D'Atri"/>
+            <img src="pics/Datri_Family-Wappen.png" alt="Familienwappen D'Atri"/>
           </div>
           <div class="hero-mark-text">
             <span class="wordmark">D'<strong>ATRI</strong> COMPANY GROUP</span>
@@ -1424,15 +1474,29 @@
 
       <article class="venture-card" role="listitem">
         <span class="vc-n">01</span>
-        <h3 class="vc-name">Datri Petite-Suite</h3>
-        <span class="vc-cat">Boutique-Hotellerie</span>
+        <div class="vc-identity">
+          <div class="vc-logo vc-logo--wide vc-logo--hotel" aria-hidden="true">
+            <img src="pics/Datri_Hotel.png" alt=""/>
+          </div>
+          <div class="vc-copy">
+            <h3 class="vc-name">Datri Petite-Suite</h3>
+            <span class="vc-cat">Boutique-Hotellerie</span>
+          </div>
+        </div>
         <span class="vc-arrow">Mehr erfahren</span>
       </article>
 
       <article class="venture-card" role="listitem">
         <span class="vc-n">02</span>
-        <h3 class="vc-name">Ristorante Il Melograno</h3>
-        <span class="vc-cat">Gastronomie &middot; Wien I.</span>
+        <div class="vc-identity">
+          <div class="vc-logo vc-logo--ristorante" aria-hidden="true">
+            <img src="pics/Datri_ilMelograno.png" alt=""/>
+          </div>
+          <div class="vc-copy">
+            <h3 class="vc-name">Ristorante Il Melograno</h3>
+            <span class="vc-cat">Gastronomie &middot; Wien I.</span>
+          </div>
+        </div>
         <span class="vc-arrow">Mehr erfahren</span>
       </article>
 
@@ -1445,8 +1509,15 @@
 
       <article class="venture-card" role="listitem">
         <span class="vc-n">04</span>
-        <h3 class="vc-name">Datri Consulting</h3>
-        <span class="vc-cat">Strategieberatung</span>
+        <div class="vc-identity">
+          <div class="vc-logo vc-logo--wide vc-logo--consulting" aria-hidden="true">
+            <img src="pics/Datri_Consulting.png" alt=""/>
+          </div>
+          <div class="vc-copy">
+            <h3 class="vc-name">Datri Consulting</h3>
+            <span class="vc-cat">Strategieberatung</span>
+          </div>
+        </div>
         <span class="vc-arrow">Mehr erfahren</span>
       </article>
 
@@ -1466,8 +1537,15 @@
 
       <article class="venture-card" role="listitem">
         <span class="vc-n">07</span>
-        <h3 class="vc-name">Datri Premium Supplements</h3>
-        <span class="vc-cat">Performance-Nahrungsergänzung</span>
+        <div class="vc-identity">
+          <div class="vc-logo vc-logo--wide vc-logo--supplements" aria-hidden="true">
+            <img src="pics/Datri_Supplements.png" alt=""/>
+          </div>
+          <div class="vc-copy">
+            <h3 class="vc-name">Datri Premium Supplements</h3>
+            <span class="vc-cat">Performance-Nahrungsergänzung</span>
+          </div>
+        </div>
         <span class="vc-arrow">Mehr erfahren</span>
       </article>
 
@@ -1613,7 +1691,7 @@
       <div>
         <div class="footer-brand">
           <div class="brand-seal" aria-hidden="true">
-            <img src="datri_wappen.png" alt=""/>
+            <img src="pics/Datri_Family-Wappen.png" alt=""/>
           </div>
           <span class="brand-mark">D'<strong>ATRI</strong></span>
         </div>
