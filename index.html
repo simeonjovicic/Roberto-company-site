@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="D'Atri Company Group — Eine familiengeführte Unternehmensgruppe italienischer Herkunft mit Sitz in Wien. Zehn Unternehmen in Hospitality, Gastronomie, Fitness, Consulting und Lifestyle."/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="D'Atri Company Group — Eine familiengeführte Unternehmensgruppe italienischer Herkunft mit Sitz in Wien. Zehn Unternehmen in Hospitality, Gastronomie, Fitness, Consulting und Lifestyle." />
   <title>D'Atri Company Group — Wien · Puglia · Napoli</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap"
+    rel="stylesheet" />
 
-  <!-- GSAP + ScrollTrigger -->
+  <!--SAP + ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
@@ -18,39 +22,45 @@
     /* ============================================================
        TOKENS
     ============================================================ */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       /* Surfaces — layered dark */
-      --bg-0:     #0a0a0c;
-      --bg-1:     #101114;
-      --bg-2:     #15171a;
-      --bg-3:     #1b1e22;
+      --bg-0: #0a0a0c;
+      --bg-1: #101114;
+      --bg-2: #15171a;
+      --bg-3: #1b1e22;
 
       /* Lines */
-      --line:         rgba(232, 228, 218, 0.08);
-      --line-gold:    rgba(184, 148, 84, 0.18);
-      --line-strong:  rgba(232, 228, 218, 0.16);
+      --line: rgba(232, 228, 218, 0.08);
+      --line-gold: rgba(184, 148, 84, 0.18);
+      --line-strong: rgba(232, 228, 218, 0.16);
 
       /* Text */
-      --t-0:  #eae6de;
-      --t-1:  #b4aea4;
-      --t-2:  #847e74;
-      --t-3:  #5a554f;
+      --t-0: #eae6de;
+      --t-1: #b4aea4;
+      --t-2: #847e74;
+      --t-3: #5a554f;
 
       /* Accents */
-      --gold:         #b89454;
-      --gold-bright:  #d3ae6b;
-      --gold-deep:    #8a6d3e;
-      --ivory:        #f5f1e8;
+      --gold: #b89454;
+      --gold-bright: #d3ae6b;
+      --gold-deep: #8a6d3e;
+      --ivory: #f5f1e8;
 
       /* Type */
-      --ff-serif:   'Playfair Display', Georgia, 'Times New Roman', serif;
-      --ff-sans:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --ff-italic:  'Cormorant Garamond', Georgia, serif;
+      --ff-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --ff-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --ff-italic: 'Cormorant Garamond', Georgia, serif;
 
       /* Motion */
-      --ease:  cubic-bezier(0.22, 0.61, 0.36, 1);
+      --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
       --ease2: cubic-bezier(0.16, 1, 0.3, 1);
 
       /* Rhythm */
@@ -78,23 +88,45 @@
       scroll-snap-type: y mandatory;
     }
 
-    /* Mobile: use normal window scroll so GSAP ScrollTrigger works on iOS */
-    @media (max-width: 639px) {
-      html { overflow: auto; height: auto; }
-      body { overflow-y: visible; height: auto; scroll-snap-type: none; }
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
     }
 
-    /* Scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg-0); }
-    ::-webkit-scrollbar-thumb { background: var(--bg-3); }
-    ::-webkit-scrollbar-thumb:hover { background: var(--gold-deep); }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-0);
+    }
 
-    ::selection { background: var(--gold); color: var(--bg-0); }
+    ::-webkit-scrollbar-thumb {
+      background: var(--bg-3);
+    }
 
-    img { max-width: 100%; display: block; }
-    a   { color: inherit; text-decoration: none; }
-    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold-deep);
+    }
+
+    ::selection {
+      background: var(--gold);
+      color: var(--bg-0);
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
 
     /* ============================================================
        PRIMITIVES
@@ -122,6 +154,7 @@
       justify-content: center;
       position: relative;
     }
+
     /* Footer slide — auto height, snaps at end */
     .slide--auto {
       height: auto;
@@ -148,6 +181,7 @@
       align-items: center;
       gap: .6rem;
     }
+
     .eyebrow::before {
       content: "";
       width: 1.5rem;
@@ -165,6 +199,7 @@
       letter-spacing: -0.01em;
       color: var(--t-0);
     }
+
     .h-display em {
       font-style: italic;
       color: var(--gold-bright);
@@ -179,7 +214,12 @@
       letter-spacing: -0.005em;
       color: var(--t-0);
     }
-    .h-section em { font-style: italic; color: var(--gold-bright); font-weight: 400; }
+
+    .h-section em {
+      font-style: italic;
+      color: var(--gold-bright);
+      font-weight: 400;
+    }
 
     .h-block {
       font-family: var(--ff-serif);
@@ -203,7 +243,10 @@
       color: var(--t-1);
       font-weight: 300;
     }
-    .body-p + .body-p { margin-top: 1rem; }
+
+    .body-p+.body-p {
+      margin-top: 1rem;
+    }
 
     .it {
       font-family: var(--ff-italic);
@@ -228,7 +271,10 @@
       padding: 0 var(--gutter);
       scrollbar-width: none;
     }
-    .portfolio-snap-wrap::-webkit-scrollbar { display: none; }
+
+    .portfolio-snap-wrap::-webkit-scrollbar {
+      display: none;
+    }
 
     .venture-card {
       scroll-snap-align: start;
@@ -245,17 +291,27 @@
       transition: background .35s var(--ease);
       overflow: hidden;
     }
-    .venture-card:last-child { border-right: 1px solid var(--line); }
+
+    .venture-card:last-child {
+      border-right: 1px solid var(--line);
+    }
+
     .venture-card::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 50% 120%, rgba(184,148,84,.09), transparent);
+      background: radial-gradient(ellipse 80% 60% at 50% 120%, rgba(184, 148, 84, .09), transparent);
       opacity: 0;
       transition: opacity .5s;
     }
-    .venture-card:hover::before { opacity: 1; }
-    .venture-card:hover { background: var(--bg-2); }
+
+    .venture-card:hover::before {
+      opacity: 1;
+    }
+
+    .venture-card:hover {
+      background: var(--bg-2);
+    }
 
     .vc-n {
       font-family: var(--ff-serif);
@@ -264,6 +320,7 @@
       font-weight: 400;
       font-feature-settings: "tnum";
     }
+
     .vc-name {
       font-family: var(--ff-serif);
       font-size: 1.35rem;
@@ -272,60 +329,7 @@
       line-height: 1.2;
       margin-top: .5rem;
     }
-    .vc-identity {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-top: 1.15rem;
-      min-height: 5rem;
-    }
-    .vc-identity .vc-name {
-      margin-top: 0;
-    }
-    .vc-copy {
-      min-width: 0;
-    }
-    .vc-logo {
-      width: 5.35rem;
-      height: 5.35rem;
-      display: grid;
-      place-items: center;
-      flex: 0 0 5.35rem;
-      padding: .78rem;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 32% 24%, rgba(255, 250, 240, .78) 0%, rgba(244, 239, 230, .66) 48%, rgba(213, 200, 180, .56) 100%);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, .42),
-        inset 0 -10px 18px rgba(74, 55, 29, .08),
-        0 12px 24px rgba(0, 0, 0, .24);
-    }
-    .vc-logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-    .vc-logo--hotel img {
-      transform: translateY(-3%) scale(1.08);
-    }
-    .vc-logo--ristorante img {
-      transform: translateY(-10%) scale(1.16);
-    }
-    .vc-logo--consulting img {
-      transform: translateY(-2%) scale(1.08);
-    }
-    .vc-logo--supplements img {
-      transform: translateY(-4%) scale(1.08);
-    }
-    .vc-logo--wide {
-      width: 5.8rem;
-      height: 5.8rem;
-      flex-basis: 5.8rem;
-    }
-    .vc-logo--ristorante img {
-      object-position: center 45%;
-    }
+
     .vc-cat {
       font-size: .68rem;
       letter-spacing: .18em;
@@ -334,6 +338,7 @@
       font-weight: 500;
       margin-top: .35rem;
     }
+
     .vc-arrow {
       margin-top: auto;
       padding-top: 2rem;
@@ -346,8 +351,16 @@
       opacity: .5;
       transition: opacity .3s, gap .3s var(--ease);
     }
-    .venture-card:hover .vc-arrow { opacity: 1; gap: .75rem; }
-    .vc-arrow::after { content: '→'; font-size: 1rem; }
+
+    .venture-card:hover .vc-arrow {
+      opacity: 1;
+      gap: .75rem;
+    }
+
+    .vc-arrow::after {
+      content: '→';
+      font-size: 1rem;
+    }
 
     /* Snap indicator dots */
     .snap-dots {
@@ -356,13 +369,16 @@
       margin-top: 1.5rem;
       padding-left: 2px;
     }
+
     .snap-dot {
-      width: 6px; height: 6px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: var(--line-strong);
       transition: background .3s, transform .3s;
       cursor: pointer;
     }
+
     .snap-dot.active {
       background: var(--gold);
       transform: scale(1.4);
@@ -396,7 +412,9 @@
     ============================================================ */
     .nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 80;
       background: rgba(10, 10, 12, 0.72);
       backdrop-filter: blur(10px);
@@ -405,10 +423,12 @@
       transition: background .4s var(--ease), border-color .4s var(--ease);
       contain: layout style;
     }
+
     .nav.stuck {
       background: rgba(10, 10, 12, 0.93);
       border-bottom-color: var(--line);
     }
+
     .nav-inner {
       max-width: 1200px;
       margin: 0 auto;
@@ -424,18 +444,24 @@
       align-items: center;
       gap: .65rem;
     }
+
     .brand-seal {
-      width: 30px;
-      height: 38px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--ivory);
+      border: 1px solid var(--line-gold);
       overflow: hidden;
       flex-shrink: 0;
     }
+
     .brand-seal img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      object-position: center;
+      object-fit: cover;
+      object-position: center 16%;
     }
+
     .brand-mark {
       font-family: var(--ff-serif);
       font-weight: 500;
@@ -443,6 +469,7 @@
       letter-spacing: .16em;
       color: var(--t-0);
     }
+
     .brand-mark strong {
       color: var(--gold-bright);
       font-weight: 500;
@@ -454,6 +481,7 @@
       list-style: none;
       gap: 2.25rem;
     }
+
     .nav-links a {
       font-size: .72rem;
       font-weight: 500;
@@ -464,6 +492,7 @@
       position: relative;
       padding: .5rem 0;
     }
+
     .nav-links a::after {
       content: "";
       position: absolute;
@@ -474,8 +503,14 @@
       background: var(--gold);
       transition: width .35s var(--ease);
     }
-    .nav-links a:hover { color: var(--t-0); }
-    .nav-links a:hover::after { width: 100%; }
+
+    .nav-links a:hover {
+      color: var(--t-0);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
 
     /* Burger */
     .burger {
@@ -487,6 +522,7 @@
       gap: 5px;
       padding: 0;
     }
+
     .burger span {
       display: block;
       width: 20px;
@@ -494,9 +530,20 @@
       background: var(--t-0);
       transition: transform .3s var(--ease), opacity .2s;
     }
-    .burger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); background: var(--gold-bright); }
-    .burger.open span:nth-child(2) { opacity: 0; }
-    .burger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); background: var(--gold-bright); }
+
+    .burger.open span:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+      background: var(--gold-bright);
+    }
+
+    .burger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .burger.open span:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
+      background: var(--gold-bright);
+    }
 
     /* Mobile menu overlay */
     .m-menu {
@@ -512,7 +559,12 @@
       display: flex;
       flex-direction: column;
     }
-    .m-menu.open { transform: translateY(0); opacity: 1; }
+
+    .m-menu.open {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
     .m-menu-list {
       list-style: none;
       display: flex;
@@ -520,22 +572,43 @@
       gap: 0;
       border-top: 1px solid var(--line);
     }
+
     .m-menu-list li {
       border-bottom: 1px solid var(--line);
       transform: translateX(-20px);
       opacity: 0;
       transition: transform .4s var(--ease2), opacity .4s var(--ease);
     }
+
     .m-menu.open li {
       transform: translateX(0);
       opacity: 1;
     }
-    .m-menu.open li:nth-child(1) { transition-delay: .08s; }
-    .m-menu.open li:nth-child(2) { transition-delay: .12s; }
-    .m-menu.open li:nth-child(3) { transition-delay: .16s; }
-    .m-menu.open li:nth-child(4) { transition-delay: .20s; }
-    .m-menu.open li:nth-child(5) { transition-delay: .24s; }
-    .m-menu.open li:nth-child(6) { transition-delay: .28s; }
+
+    .m-menu.open li:nth-child(1) {
+      transition-delay: .08s;
+    }
+
+    .m-menu.open li:nth-child(2) {
+      transition-delay: .12s;
+    }
+
+    .m-menu.open li:nth-child(3) {
+      transition-delay: .16s;
+    }
+
+    .m-menu.open li:nth-child(4) {
+      transition-delay: .20s;
+    }
+
+    .m-menu.open li:nth-child(5) {
+      transition-delay: .24s;
+    }
+
+    .m-menu.open li:nth-child(6) {
+      transition-delay: .28s;
+    }
+
     .m-menu-list a {
       display: flex;
       align-items: baseline;
@@ -548,7 +621,11 @@
       letter-spacing: -0.01em;
       transition: color .2s;
     }
-    .m-menu-list a:active { color: var(--gold-bright); }
+
+    .m-menu-list a:active {
+      color: var(--gold-bright);
+    }
+
     .m-menu-list a span {
       font-family: var(--ff-sans);
       font-size: .6rem;
@@ -557,17 +634,22 @@
       font-weight: 500;
       text-transform: uppercase;
     }
+
     .m-menu-foot {
       margin-top: auto;
       padding-top: 1.5rem;
       border-top: 1px solid var(--line);
     }
+
     .m-menu-foot p {
       font-size: .72rem;
       color: var(--t-2);
       margin-bottom: .3rem;
     }
-    .m-menu-foot a { color: var(--gold-bright); }
+
+    .m-menu-foot a {
+      color: var(--gold-bright);
+    }
 
     /* ============================================================
        HERO
@@ -576,6 +658,7 @@
       padding: 4rem var(--gutter) 2rem;
       position: relative;
     }
+
     .hero-bg {
       position: absolute;
       inset: 0;
@@ -584,6 +667,7 @@
         radial-gradient(ellipse 70% 45% at 50% 30%, rgba(184, 148, 84, 0.07), transparent 65%),
         radial-gradient(ellipse 100% 60% at 50% 100%, rgba(184, 148, 84, 0.03), transparent 70%);
     }
+
     .hero-inner {
       position: relative;
       max-width: 1200px;
@@ -597,23 +681,31 @@
       gap: .75rem;
       margin-bottom: 1.5rem;
     }
+
     .hero-mark-seal {
-      width: 46px;
-      height: 60px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--ivory);
+      border: 1px solid var(--line-gold);
+      box-shadow: 0 0 0 5px rgba(184, 148, 84, .04);
       overflow: hidden;
       flex-shrink: 0;
     }
+
     .hero-mark-seal img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      object-position: center;
+      object-fit: cover;
+      object-position: center 16%;
     }
+
     .hero-mark-text {
       display: flex;
       flex-direction: column;
       gap: .2rem;
     }
+
     .hero-mark-text .wordmark {
       font-family: var(--ff-serif);
       font-size: .95rem;
@@ -621,7 +713,12 @@
       color: var(--t-0);
       font-weight: 500;
     }
-    .hero-mark-text .wordmark strong { color: var(--gold-bright); font-weight: 500; }
+
+    .hero-mark-text .wordmark strong {
+      color: var(--gold-bright);
+      font-weight: 500;
+    }
+
     .hero-mark-text .sub {
       font-size: .62rem;
       letter-spacing: .2em;
@@ -633,6 +730,7 @@
     .hero h1 {
       margin-top: 1.25rem;
     }
+
     .hero-lede {
       margin-top: 1.25rem;
       max-width: 40ch;
@@ -647,12 +745,14 @@
       grid-template-columns: 1fr;
       gap: .5rem;
     }
+
     .hero-meta-item {
       display: flex;
       flex-direction: column;
       gap: .3rem;
       padding: .4rem 0;
     }
+
     .hero-meta-item .k {
       font-size: .62rem;
       letter-spacing: .22em;
@@ -660,6 +760,7 @@
       color: var(--gold);
       font-weight: 500;
     }
+
     .hero-meta-item .v {
       font-family: var(--ff-serif);
       font-size: 1rem;
@@ -679,12 +780,14 @@
       gap: .5rem;
       opacity: .55;
     }
+
     .hero-scroll span {
       font-size: .55rem;
       letter-spacing: .3em;
       text-transform: uppercase;
       color: var(--t-2);
     }
+
     .hero-scroll::after {
       content: "";
       width: 1px;
@@ -692,9 +795,19 @@
       background: linear-gradient(to bottom, var(--gold), transparent);
       animation: scrollPulse 2.2s ease-in-out infinite;
     }
+
     @keyframes scrollPulse {
-      0%, 100% { opacity: .3; transform: scaleY(1); }
-      50%       { opacity: 1;  transform: scaleY(.6) translateY(6px); }
+
+      0%,
+      100% {
+        opacity: .3;
+        transform: scaleY(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scaleY(.6) translateY(6px);
+      }
     }
 
     /* ============================================================
@@ -705,6 +818,7 @@
       border-top: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
     }
+
     .heritage-deco {
       text-align: center;
       font-family: var(--ff-italic);
@@ -714,6 +828,7 @@
       opacity: .78;
       margin-bottom: 1.25rem;
     }
+
     .heritage-quote {
       font-family: var(--ff-serif);
       font-style: italic;
@@ -725,6 +840,7 @@
       margin: 0 auto;
       text-align: center;
     }
+
     .heritage-attr {
       margin-top: 1.25rem;
       text-align: center;
@@ -734,6 +850,7 @@
       color: var(--gold);
       font-weight: 500;
     }
+
     .heritage-body {
       max-width: 52ch;
       margin: 1.75rem auto 0;
@@ -746,9 +863,11 @@
     .figures {
       background: var(--bg-0);
     }
+
     .figures-head {
       margin-bottom: 1.5rem;
     }
+
     .figures-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -756,6 +875,7 @@
       background: var(--line);
       border: 1px solid var(--line);
     }
+
     .fig {
       background: var(--bg-0);
       padding: 1.75rem 1.25rem;
@@ -763,6 +883,7 @@
       flex-direction: column;
       gap: .35rem;
     }
+
     .fig-k {
       font-size: .6rem;
       letter-spacing: .22em;
@@ -770,6 +891,7 @@
       color: var(--gold);
       font-weight: 500;
     }
+
     .fig-v {
       font-family: var(--ff-serif);
       font-size: 2.2rem;
@@ -778,6 +900,7 @@
       line-height: 1;
       margin-top: .35rem;
     }
+
     .fig-n {
       font-size: .8rem;
       color: var(--t-1);
@@ -791,15 +914,19 @@
       background: var(--bg-1);
       border-top: 1px solid var(--line);
     }
+
     .sectors-head {
       margin-bottom: 1.5rem;
     }
+
     .sectors-head h2 {
       margin-top: 1rem;
     }
+
     .sectors-head .lede {
       margin-top: 1.25rem;
     }
+
     .sector-list {
       list-style: none;
       display: grid;
@@ -807,6 +934,7 @@
       gap: 0;
       border-top: 1px solid var(--line);
     }
+
     .sector-list li {
       padding: 1rem 0;
       border-bottom: 1px solid var(--line);
@@ -815,6 +943,7 @@
       gap: .75rem;
       align-items: start;
     }
+
     .sector-list .sk {
       font-size: .7rem;
       letter-spacing: .18em;
@@ -822,12 +951,14 @@
       font-weight: 500;
       padding-top: .35rem;
     }
+
     .sector-list .sn {
       font-family: var(--ff-serif);
       font-size: 1.25rem;
       font-weight: 400;
       color: var(--t-0);
     }
+
     .sector-list .sd {
       margin-top: .35rem;
       font-size: .88rem;
@@ -842,13 +973,16 @@
       background: var(--bg-0);
       border-top: 1px solid var(--line);
     }
+
     .portfolio-head {
       margin-bottom: 1.5rem;
     }
+
     .portfolio-list {
       list-style: none;
       border-top: 1px solid var(--line);
     }
+
     .venture {
       border-bottom: 1px solid var(--line);
       padding: 1.5rem 0;
@@ -859,11 +993,13 @@
       transition: background .3s, padding .3s var(--ease);
       cursor: pointer;
     }
+
     .venture:hover {
       background: rgba(184, 148, 84, 0.03);
       padding-left: .5rem;
       padding-right: .5rem;
     }
+
     .venture-n {
       font-family: var(--ff-serif);
       font-size: .85rem;
@@ -871,12 +1007,14 @@
       color: var(--gold);
       font-feature-settings: "tnum";
     }
+
     .venture-body {
       display: flex;
       flex-direction: column;
       gap: .25rem;
       min-width: 0;
     }
+
     .venture-name {
       font-family: var(--ff-serif);
       font-size: 1.15rem;
@@ -884,6 +1022,7 @@
       color: var(--t-0);
       line-height: 1.2;
     }
+
     .venture-cat {
       font-size: .68rem;
       letter-spacing: .18em;
@@ -891,11 +1030,13 @@
       color: var(--t-2);
       font-weight: 500;
     }
+
     .venture-arrow {
       font-size: 1rem;
       color: var(--t-3);
       transition: color .3s, transform .3s var(--ease);
     }
+
     .venture:hover .venture-arrow {
       color: var(--gold-bright);
       transform: translateX(3px);
@@ -908,7 +1049,11 @@
       background: var(--bg-1);
       border-top: 1px solid var(--line);
     }
-    .principles-head { margin-bottom: 1.5rem; }
+
+    .principles-head {
+      margin-bottom: 1.5rem;
+    }
+
     .principles-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -916,6 +1061,7 @@
       background: var(--line);
       border: 1px solid var(--line);
     }
+
     .principle {
       background: var(--bg-1);
       padding: 1.25rem 1rem;
@@ -923,6 +1069,7 @@
       flex-direction: column;
       gap: .4rem;
     }
+
     .principle-k {
       font-size: .6rem;
       letter-spacing: .22em;
@@ -930,6 +1077,7 @@
       color: var(--gold);
       font-weight: 500;
     }
+
     .principle-h {
       font-family: var(--ff-serif);
       font-size: 1.2rem;
@@ -937,6 +1085,7 @@
       color: var(--t-0);
       margin-top: .2rem;
     }
+
     .principle-p {
       font-size: .88rem;
       line-height: 1.7;
@@ -950,6 +1099,7 @@
       background: var(--bg-0);
       border-top: 1px solid var(--line);
     }
+
     .loc-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -957,6 +1107,7 @@
       margin-top: 1.5rem;
       border-top: 1px solid var(--line);
     }
+
     .loc {
       padding: 1.25rem 0;
       border-bottom: 1px solid var(--line);
@@ -965,12 +1116,14 @@
       gap: 1rem;
       align-items: baseline;
     }
+
     .loc-city {
       font-family: var(--ff-serif);
       font-size: 1.4rem;
       font-weight: 400;
       color: var(--t-0);
     }
+
     .loc-country {
       font-size: .68rem;
       letter-spacing: .2em;
@@ -978,6 +1131,7 @@
       color: var(--t-2);
       font-weight: 500;
     }
+
     .loc-role {
       grid-column: 1 / -1;
       margin-top: .35rem;
@@ -993,6 +1147,7 @@
       background: var(--bg-1);
       border-top: 1px solid var(--line);
     }
+
     .contact-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -1000,6 +1155,7 @@
       margin-top: 1.5rem;
       border-top: 1px solid var(--line);
     }
+
     .contact-row {
       padding: 1.25rem 0;
       border-bottom: 1px solid var(--line);
@@ -1007,6 +1163,7 @@
       flex-direction: column;
       gap: .35rem;
     }
+
     .contact-k {
       font-size: .6rem;
       letter-spacing: .22em;
@@ -1014,21 +1171,25 @@
       color: var(--gold);
       font-weight: 500;
     }
+
     .contact-v {
       font-family: var(--ff-serif);
       font-size: 1.1rem;
       color: var(--t-0);
     }
+
     .contact-v a {
       color: var(--t-0);
       border-bottom: 1px solid var(--line-gold);
       padding-bottom: 2px;
       transition: color .3s, border-color .3s;
     }
+
     .contact-v a:hover {
       color: var(--gold-bright);
       border-color: var(--gold);
     }
+
     .contact-n {
       font-size: .82rem;
       color: var(--t-2);
@@ -1043,6 +1204,7 @@
       border-top: 1px solid var(--line);
       padding: 2.5rem var(--gutter) 2rem;
     }
+
     .footer-inner {
       max-width: 1200px;
       margin: 0 auto;
@@ -1050,12 +1212,18 @@
       flex-direction: column;
       gap: 1.75rem;
     }
+
     .footer-brand {
       display: flex;
       align-items: center;
       gap: .65rem;
     }
-    .footer-brand .brand-seal { width: 34px; height: 44px; }
+
+    .footer-brand .brand-seal {
+      width: 32px;
+      height: 32px;
+    }
+
     .footer-legal {
       display: flex;
       flex-wrap: wrap;
@@ -1063,6 +1231,7 @@
       padding-top: 1.5rem;
       border-top: 1px solid var(--line);
     }
+
     .footer-legal a {
       font-size: .68rem;
       letter-spacing: .18em;
@@ -1071,12 +1240,17 @@
       font-weight: 500;
       transition: color .3s;
     }
-    .footer-legal a:hover { color: var(--gold-bright); }
+
+    .footer-legal a:hover {
+      color: var(--gold-bright);
+    }
+
     .footer-copy {
       font-size: .7rem;
       color: var(--t-3);
       font-weight: 300;
     }
+
     .footer-it {
       font-family: var(--ff-italic);
       font-style: italic;
@@ -1090,60 +1264,186 @@
        RESPONSIVE — ≥ 640px
     ============================================================ */
     @media (min-width: 640px) {
-      :root { --gutter: 2rem; --sect-y: 3rem; }
-      .slide { height: 100svh; overflow: hidden; }
-      .hero { padding: 5rem var(--gutter) 3rem; }
-      .hero-mark { margin-bottom: 2.5rem; }
-      .hero-mark-seal { width: 58px; height: 76px; }
-      .hero-lede { margin-top: 2rem; }
-      .hero-meta { margin-top: 3rem; padding-top: 1.5rem; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-      .heritage-deco { font-size: clamp(2rem, 6vw, 3.5rem); margin-bottom: 2rem; }
-      .heritage-attr { margin-top: 2rem; }
-      .heritage-body { margin-top: 3rem; }
-      .figures-head { margin-bottom: 2.5rem; }
-      .figures-grid { grid-template-columns: repeat(4, 1fr); }
-      .sectors-head { margin-bottom: 2.5rem; }
-      .sector-list li { padding: 1.5rem 0; grid-template-columns: 2.5rem 12rem 1fr; gap: 1.5rem; }
-      .portfolio-head { margin-bottom: 2.5rem; }
-      .principles-head { margin-bottom: 2.5rem; }
-      .principle { padding: 1.75rem 1.4rem; gap: .6rem; }
-      .loc-grid { margin-top: 2.5rem; }
-      .loc { padding: 1.75rem 0; }
-      .contact-grid { margin-top: 2.5rem; }
-      .contact-row { padding: 1.75rem 0; }
-      .venture { grid-template-columns: 3rem 1fr 2rem; }
+      :root {
+        --gutter: 2rem;
+        --sect-y: 3rem;
+      }
+
+      .slide {
+        height: 100svh;
+        overflow: hidden;
+      }
+
+      .hero {
+        padding: 5rem var(--gutter) 3rem;
+      }
+
+      .hero-mark {
+        margin-bottom: 2.5rem;
+      }
+
+      .hero-mark-seal {
+        width: 52px;
+        height: 52px;
+      }
+
+      .hero-lede {
+        margin-top: 2rem;
+      }
+
+      .hero-meta {
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+
+      .heritage-deco {
+        font-size: clamp(2rem, 6vw, 3.5rem);
+        margin-bottom: 2rem;
+      }
+
+      .heritage-attr {
+        margin-top: 2rem;
+      }
+
+      .heritage-body {
+        margin-top: 3rem;
+      }
+
+      .figures-head {
+        margin-bottom: 2.5rem;
+      }
+
+      .figures-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .sectors-head {
+        margin-bottom: 2.5rem;
+      }
+
+      .sector-list li {
+        padding: 1.5rem 0;
+        grid-template-columns: 2.5rem 12rem 1fr;
+        gap: 1.5rem;
+      }
+
+      .portfolio-head {
+        margin-bottom: 2.5rem;
+      }
+
+      .principles-head {
+        margin-bottom: 2.5rem;
+      }
+
+      .principle {
+        padding: 1.75rem 1.4rem;
+        gap: .6rem;
+      }
+
+      .loc-grid {
+        margin-top: 2.5rem;
+      }
+
+      .loc {
+        padding: 1.75rem 0;
+      }
+
+      .contact-grid {
+        margin-top: 2.5rem;
+      }
+
+      .contact-row {
+        padding: 1.75rem 0;
+      }
+
+      .venture {
+        grid-template-columns: 3rem 1fr 2rem;
+      }
     }
 
     /* ============================================================
        RESPONSIVE — ≥ 900px
     ============================================================ */
     @media (min-width: 900px) {
-      :root { --gutter: 2.5rem; --sect-y: 4rem; }
-      .nav-links { display: flex; }
-      .burger { display: none; }
+      :root {
+        --gutter: 2.5rem;
+        --sect-y: 4rem;
+      }
 
-      .hero-inner { display: grid; grid-template-columns: 1.4fr 1fr; gap: 5rem; align-items: center; }
-      .hero-side { border-left: 1px solid var(--line); padding-left: 3rem; }
-      .hero-mark { margin-bottom: 0; }
-      .hero-meta { grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2.5rem; padding-top: 2rem; }
+      .nav-links {
+        display: flex;
+      }
 
-      .heritage-body { margin-top: 4rem; }
+      .burger {
+        display: none;
+      }
 
-      .sectors-head, .portfolio-head, .principles-head, .figures-head {
+      .hero-inner {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 5rem;
+        align-items: center;
+      }
+
+      .hero-side {
+        border-left: 1px solid var(--line);
+        padding-left: 3rem;
+      }
+
+      .hero-mark {
+        margin-bottom: 0;
+      }
+
+      .hero-meta {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-top: 2.5rem;
+        padding-top: 2rem;
+      }
+
+      .heritage-body {
+        margin-top: 4rem;
+      }
+
+      .sectors-head,
+      .portfolio-head,
+      .principles-head,
+      .figures-head {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 4rem;
         align-items: end;
       }
-      .sectors-head .lede, .portfolio-head .lede, .principles-head .lede { margin-top: 0; }
 
-      .venture { grid-template-columns: 3.5rem 1fr 2.5rem; padding: 1.85rem 0; }
-      .venture-name { font-size: 1.3rem; }
+      .sectors-head .lede,
+      .portfolio-head .lede,
+      .principles-head .lede {
+        margin-top: 0;
+      }
 
-      .sector-list li { grid-template-columns: 3rem 14rem 1fr; padding: 1.85rem 0; }
+      .venture {
+        grid-template-columns: 3.5rem 1fr 2.5rem;
+        padding: 1.85rem 0;
+      }
 
-      .loc { padding: 2rem 0; }
-      .contact-row { padding: 2rem 0; }
+      .venture-name {
+        font-size: 1.3rem;
+      }
+
+      .sector-list li {
+        grid-template-columns: 3rem 14rem 1fr;
+        padding: 1.85rem 0;
+      }
+
+      .loc {
+        padding: 2rem 0;
+      }
+
+      .contact-row {
+        padding: 2rem 0;
+      }
 
       .footer-inner {
         flex-direction: row;
@@ -1151,14 +1451,20 @@
         align-items: flex-start;
         gap: 3rem;
       }
-      .footer-legal { padding-top: 0; border-top: none; }
+
+      .footer-legal {
+        padding-top: 0;
+        border-top: none;
+      }
     }
 
     /* ============================================================
        RESPONSIVE — ≥ 1200px
     ============================================================ */
     @media (min-width: 1200px) {
-      .principles-grid { grid-template-columns: repeat(4, 1fr); }
+      .principles-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
     }
 
     /* ============================================================
@@ -1174,6 +1480,7 @@
       flex-direction: column;
       gap: .65rem;
     }
+
     .slide-dot {
       width: 8px;
       height: 8px;
@@ -1184,11 +1491,13 @@
       cursor: pointer;
       transition: background .3s, transform .3s var(--ease), box-shadow .3s;
     }
+
     .slide-dot.active {
       background: var(--gold);
       transform: scale(1.5);
       box-shadow: 0 0 8px rgba(184, 148, 84, .35);
     }
+
     .slide-dot:hover:not(.active) {
       background: var(--t-2);
       transform: scale(1.25);
@@ -1198,59 +1507,117 @@
        MOBILE — < 640px
     ============================================================ */
     @media (max-width: 639px) {
-      .slide-dots { display: none; }
+      .slide-dots {
+        display: none;
+      }
 
       /* Hero — compact vertical layout */
-      .hero h1 { margin-top: .75rem; }
-      .hero-mark-text .wordmark { font-size: .85rem; letter-spacing: .16em; }
+      .hero h1 {
+        margin-top: .75rem;
+      }
+
+      .hero-mark-text .wordmark {
+        font-size: .85rem;
+        letter-spacing: .16em;
+      }
 
       /* Heritage — tighter on small screens */
-      .heritage-quote { font-size: clamp(1.2rem, 4.5vw, 1.8rem); }
+      .heritage-quote {
+        font-size: clamp(1.2rem, 4.5vw, 1.8rem);
+      }
 
       /* Sectors — hide descriptions to fit in viewport */
-      .sector-list .sd { display: none; }
-      .sector-list li { padding: .85rem 0; }
-      .sector-list .sn { font-size: 1.1rem; }
+      .sector-list .sd {
+        display: none;
+      }
+
+      .sector-list li {
+        padding: .85rem 0;
+      }
+
+      .sector-list .sn {
+        font-size: 1.1rem;
+      }
 
       /* Scroll line — less margin */
-      .scroll-line { margin: 1rem 0; }
+      .scroll-line {
+        margin: 1rem 0;
+      }
 
       /* Portfolio cards — wider on mobile */
-      .venture-card { flex: 0 0 82vw; padding: 1.75rem 1.5rem; }
-      .portfolio-snap-wrap { margin-top: 1.5rem; }
-      .vc-identity { gap: .85rem; min-height: 4.5rem; }
-      .vc-logo { width: 4.8rem; height: 4.8rem; flex-basis: 4.8rem; padding: .7rem; }
-      .vc-logo--wide { width: 5.1rem; height: 5.1rem; flex-basis: 5.1rem; }
+      .venture-card {
+        flex: 0 0 82vw;
+        padding: 1.75rem 1.5rem;
+      }
+
+      .portfolio-snap-wrap {
+        margin-top: 1.5rem;
+      }
 
       /* Principles — compact 2-col */
-      .principle-h { font-size: 1.05rem; }
-      .principle-p { font-size: .8rem; line-height: 1.6; }
-      .principle-k { font-size: .55rem; }
+      .principle-h {
+        font-size: 1.05rem;
+      }
+
+      .principle-p {
+        font-size: .8rem;
+        line-height: 1.6;
+      }
+
+      .principle-k {
+        font-size: .55rem;
+      }
 
       /* Locations — compact */
-      .loc-city { font-size: 1.2rem; }
-      .loc-role { font-size: .82rem; }
+      .loc-city {
+        font-size: 1.2rem;
+      }
+
+      .loc-role {
+        font-size: .82rem;
+      }
 
       /* Contact — compact */
-      .contact-v { font-size: 1rem; }
-      .contact-n { font-size: .75rem; }
+      .contact-v {
+        font-size: 1rem;
+      }
+
+      .contact-n {
+        font-size: .75rem;
+      }
 
       /* Footer — compact */
-      .footer { padding: 2rem var(--gutter) 1.5rem; }
-      .footer-it { font-size: .85rem; }
-      .footer-legal { gap: 1rem; }
+      .footer {
+        padding: 2rem var(--gutter) 1.5rem;
+      }
+
+      .footer-it {
+        font-size: .85rem;
+      }
+
+      .footer-legal {
+        gap: 1rem;
+      }
 
       /* Snap dots — smaller on mobile */
-      .snap-dots { margin-top: 1rem; }
+      .snap-dots {
+        margin-top: 1rem;
+      }
     }
 
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
-      .hero-scroll::after { animation: none; }
-      body { scroll-snap-type: none !important; }
+      .hero-scroll::after {
+        animation: none;
+      }
+
+      body {
+        scroll-snap-type: none !important;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- ==================== NAV ==================== -->
@@ -1258,7 +1625,7 @@
     <div class="nav-inner">
       <a href="#top" class="brand" aria-label="D'Atri Company Group — Startseite">
         <div class="brand-seal" aria-hidden="true">
-          <img src="pics/Datri_Family-Wappen.png" alt=""/>
+          <img src="datri_wappen.png" alt="" />
         </div>
         <span class="brand-mark">D'<strong>ATRI</strong></span>
       </a>
@@ -1282,12 +1649,12 @@
   <!-- ==================== MOBILE MENU ==================== -->
   <div class="m-menu" id="mobmenu" aria-hidden="true">
     <ul class="m-menu-list" role="list">
-      <li><a href="#herkunft"  onclick="closeMenu()">Herkunft <span>01</span></a></li>
-      <li><a href="#branchen"  onclick="closeMenu()">Branchen <span>02</span></a></li>
+      <li><a href="#herkunft" onclick="closeMenu()">Herkunft <span>01</span></a></li>
+      <li><a href="#branchen" onclick="closeMenu()">Branchen <span>02</span></a></li>
       <li><a href="#portfolio" onclick="closeMenu()">Portfolio <span>03</span></a></li>
       <li><a href="#grundsaetze" onclick="closeMenu()">Grundsätze <span>04</span></a></li>
       <li><a href="#standorte" onclick="closeMenu()">Standorte <span>05</span></a></li>
-      <li><a href="#kontakt"   onclick="closeMenu()">Kontakt <span>06</span></a></li>
+      <li><a href="#kontakt" onclick="closeMenu()">Kontakt <span>06</span></a></li>
     </ul>
     <div class="m-menu-foot">
       <p>D'Atri Company Group</p>
@@ -1304,7 +1671,7 @@
       <div class="hero-main">
         <div class="hero-mark rv">
           <div class="hero-mark-seal" aria-hidden="true">
-            <img src="pics/Datri_Family-Wappen.png" alt="Familienwappen D'Atri"/>
+            <img src="datri_wappen.png" alt="Familienwappen D'Atri" />
           </div>
           <div class="hero-mark-text">
             <span class="wordmark">D'<strong>ATRI</strong> COMPANY GROUP</span>
@@ -1313,8 +1680,8 @@
         </div>
 
         <h1 class="h-display rv d1">
-          Zehn Unternehmen.<br/>
-          <em>Eine Familie.</em><br/>
+          Zehn Unternehmen.<br />
+          <em>Eine Familie.</em><br />
           Eine Handschrift.
         </h1>
 
@@ -1413,7 +1780,7 @@
       <header class="sectors-head">
         <div class="rv" id="sectors-head-text">
           <p class="eyebrow">Branchen</p>
-          <h2 class="h-section" id="sectors-h">Fünf Sektoren.<br/><em>Ein Qualitätsanspruch.</em></h2>
+          <h2 class="h-section" id="sectors-h">Fünf Sektoren.<br /><em>Ein Qualitätsanspruch.</em></h2>
         </div>
         <p class="lede rv d1" id="sectors-lede">
           Die Gruppe bündelt Unternehmen aus fünf Kernbereichen.
@@ -1433,12 +1800,14 @@
         <li>
           <span class="sk">02</span>
           <span class="sn">Gastronomie</span>
-          <span class="sd">Italienische Küche auf höchstem Niveau &mdash; sorgfältig geführte Häuser im ersten Bezirk.</span>
+          <span class="sd">Italienische Küche auf höchstem Niveau &mdash; sorgfältig geführte Häuser im ersten
+            Bezirk.</span>
         </li>
         <li>
           <span class="sk">03</span>
           <span class="sn">Fitness &amp; Sport</span>
-          <span class="sd">Individuelles Coaching, Personal Training und Kampfsport-Events mit professioneller Inszenierung.</span>
+          <span class="sd">Individuelles Coaching, Personal Training und Kampfsport-Events mit professioneller
+            Inszenierung.</span>
         </li>
         <li>
           <span class="sk">04</span>
@@ -1448,7 +1817,8 @@
         <li>
           <span class="sk">05</span>
           <span class="sn">Lifestyle &amp; Produkt</span>
-          <span class="sd">Premium-Produkte italienischer Herkunft &mdash; Olivenöl, Maßschneiderei, Supplements, Reisen.</span>
+          <span class="sd">Premium-Produkte italienischer Herkunft &mdash; Olivenöl, Maßschneiderei, Supplements,
+            Reisen.</span>
         </li>
       </ul>
     </div>
@@ -1460,7 +1830,7 @@
       <header class="portfolio-head">
         <div class="rv" id="portfolio-head-text">
           <p class="eyebrow">Portfolio</p>
-          <h2 class="h-section" id="portfolio-h">Die Unternehmen<br/>der Gruppe.</h2>
+          <h2 class="h-section" id="portfolio-h">Die Unternehmen<br />der Gruppe.</h2>
         </div>
         <p class="lede rv d1" id="portfolio-lede">
           Zehn Marken unter einem Dach. Jede mit eigener Identität,
@@ -1474,29 +1844,15 @@
 
       <article class="venture-card" role="listitem">
         <span class="vc-n">01</span>
-        <div class="vc-identity">
-          <div class="vc-logo vc-logo--wide vc-logo--hotel" aria-hidden="true">
-            <img src="pics/Datri_Hotel.png" alt=""/>
-          </div>
-          <div class="vc-copy">
-            <h3 class="vc-name">Datri Petite-Suite</h3>
-            <span class="vc-cat">Boutique-Hotellerie</span>
-          </div>
-        </div>
+        <h3 class="vc-name">Datri Petite-Suite</h3>
+        <span class="vc-cat">Boutique-Hotellerie</span>
         <span class="vc-arrow">Mehr erfahren</span>
       </article>
 
       <article class="venture-card" role="listitem">
         <span class="vc-n">02</span>
-        <div class="vc-identity">
-          <div class="vc-logo vc-logo--ristorante" aria-hidden="true">
-            <img src="pics/Datri_ilMelograno.png" alt=""/>
-          </div>
-          <div class="vc-copy">
-            <h3 class="vc-name">Ristorante Il Melograno</h3>
-            <span class="vc-cat">Gastronomie &middot; Wien I.</span>
-          </div>
-        </div>
+        <h3 class="vc-name">Ristorante Il Melograno</h3>
+        <span class="vc-cat">Gastronomie &middot; Wien I.</span>
         <span class="vc-arrow">Mehr erfahren</span>
       </article>
 
@@ -1509,15 +1865,8 @@
 
       <article class="venture-card" role="listitem">
         <span class="vc-n">04</span>
-        <div class="vc-identity">
-          <div class="vc-logo vc-logo--wide vc-logo--consulting" aria-hidden="true">
-            <img src="pics/Datri_Consulting.png" alt=""/>
-          </div>
-          <div class="vc-copy">
-            <h3 class="vc-name">Datri Consulting</h3>
-            <span class="vc-cat">Strategieberatung</span>
-          </div>
-        </div>
+        <h3 class="vc-name">Datri Consulting</h3>
+        <span class="vc-cat">Strategieberatung</span>
         <span class="vc-arrow">Mehr erfahren</span>
       </article>
 
@@ -1537,15 +1886,8 @@
 
       <article class="venture-card" role="listitem">
         <span class="vc-n">07</span>
-        <div class="vc-identity">
-          <div class="vc-logo vc-logo--wide vc-logo--supplements" aria-hidden="true">
-            <img src="pics/Datri_Supplements.png" alt=""/>
-          </div>
-          <div class="vc-copy">
-            <h3 class="vc-name">Datri Premium Supplements</h3>
-            <span class="vc-cat">Performance-Nahrungsergänzung</span>
-          </div>
-        </div>
+        <h3 class="vc-name">Datri Premium Supplements</h3>
+        <span class="vc-cat">Performance-Nahrungsergänzung</span>
         <span class="vc-arrow">Mehr erfahren</span>
       </article>
 
@@ -1586,7 +1928,7 @@
       <header class="principles-head">
         <div class="rv" id="principles-head-text">
           <p class="eyebrow">Grundsätze</p>
-          <h2 class="h-section" id="principles-h">Woran wir uns<br/>messen lassen.</h2>
+          <h2 class="h-section" id="principles-h">Woran wir uns<br />messen lassen.</h2>
         </div>
         <p class="lede rv d1" id="principles-lede">
           Vier Prinzipien ziehen sich durch alles, was wir tun &mdash;
@@ -1632,17 +1974,20 @@
         <div class="loc rv">
           <span class="loc-city">Wien</span>
           <span class="loc-country">Österreich · Hauptsitz</span>
-          <p class="loc-role">Zentrale Verwaltung der Gruppe. Standort der Unternehmen Petite-Suite, Il Melograno, Personal Training, Consulting.</p>
+          <p class="loc-role">Zentrale Verwaltung der Gruppe. Standort der Unternehmen Petite-Suite, Il Melograno,
+            Personal Training, Consulting.</p>
         </div>
         <div class="loc rv d1">
           <span class="loc-city">Puglia</span>
           <span class="loc-country">Italien · Ursprung</span>
-          <p class="loc-role">Familiäre Wurzeln. Herkunft unserer Produkte, Basis für Tours und Olivenöl aus eigener Erzeugung.</p>
+          <p class="loc-role">Familiäre Wurzeln. Herkunft unserer Produkte, Basis für Tours und Olivenöl aus eigener
+            Erzeugung.</p>
         </div>
         <div class="loc rv d2">
           <span class="loc-city">Napoli</span>
           <span class="loc-country">Italien · Handwerk</span>
-          <p class="loc-role">Partner und Manufakturen für Maßschneiderei und traditionelles Handwerk <em class="it">&mdash; fatto a mano</em>.</p>
+          <p class="loc-role">Partner und Manufakturen für Maßschneiderei und traditionelles Handwerk <em
+              class="it">&mdash; fatto a mano</em>.</p>
         </div>
       </div>
     </div>
@@ -1668,7 +2013,8 @@
         </div>
         <div class="contact-row rv d1">
           <span class="contact-k">Partnerschaften</span>
-          <span class="contact-v"><a href="mailto:partnership@datri-companygroup.at">partnership@datri-companygroup.at</a></span>
+          <span class="contact-v"><a
+              href="mailto:partnership@datri-companygroup.at">partnership@datri-companygroup.at</a></span>
           <span class="contact-n">Für strategische Partnerschaften und Kooperationen.</span>
         </div>
         <div class="contact-row rv d2">
@@ -1691,7 +2037,7 @@
       <div>
         <div class="footer-brand">
           <div class="brand-seal" aria-hidden="true">
-            <img src="pics/Datri_Family-Wappen.png" alt=""/>
+            <img src="datri_wappen.png" alt="" />
           </div>
           <span class="brand-mark">D'<strong>ATRI</strong></span>
         </div>
@@ -1714,399 +2060,393 @@
 
   <!-- ==================== SCRIPTS ==================== -->
   <script>
-  (function(){
-    'use strict';
+    (function () {
+      'use strict';
 
-    /* ── RAF-throttled scroll helper ── */
-    function onScrollThrottled(el, fn) {
-      let ticking = false;
-      el.addEventListener('scroll', () => {
-        if (!ticking) {
-          ticking = true;
-          requestAnimationFrame(() => { fn(); ticking = false; });
-        }
-      }, { passive: true });
-    }
+      /* ── RAF-throttled scroll helper ── */
+      function onScrollThrottled(el, fn) {
+        let ticking = false;
+        el.addEventListener('scroll', () => {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(() => { fn(); ticking = false; });
+          }
+        }, { passive: true });
+      }
 
-    /* ── Unified scroll Y (body scroller on desktop, window on mobile) ── */
-    const isMobile = window.innerWidth < 640;
-    const scrollContainer = isMobile ? window : document.body;
-    function getScrollY() {
-      return isMobile ? window.scrollY : document.body.scrollTop;
-    }
+      /* ── Nav scroll state ── */
+      const nav = document.getElementById('nav');
+      const checkNav = () => nav.classList.toggle('stuck', document.body.scrollTop > 24);
+      onScrollThrottled(document.body, checkNav);
+      checkNav();
 
-    /* ── Nav scroll state ── */
-    const nav = document.getElementById('nav');
-    const checkNav = () => nav.classList.toggle('stuck', getScrollY() > 24);
-    onScrollThrottled(scrollContainer, checkNav);
-    checkNav();
+      /* ── Mobile menu ── */
+      const burger = document.getElementById('burger');
+      const mobmenu = document.getElementById('mobmenu');
 
-    /* ── Mobile menu ── */
-    const burger  = document.getElementById('burger');
-    const mobmenu = document.getElementById('mobmenu');
+      function openMenu() {
+        burger.classList.add('open'); mobmenu.classList.add('open');
+        burger.setAttribute('aria-expanded', 'true');
+        mobmenu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflowY = 'hidden';
+        document.body.style.scrollSnapType = 'none';
+      }
+      function closeMenu() {
+        burger.classList.remove('open'); mobmenu.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+        mobmenu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflowY = '';
+        document.body.style.scrollSnapType = '';
+      }
+      burger.addEventListener('click', () => (mobmenu.classList.contains('open') ? closeMenu : openMenu)());
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+      window.closeMenu = closeMenu;
 
-    function openMenu() {
-      burger.classList.add('open'); mobmenu.classList.add('open');
-      burger.setAttribute('aria-expanded', 'true');
-      mobmenu.setAttribute('aria-hidden', 'false');
-      document.body.style.overflowY = 'hidden';
-      document.body.style.scrollSnapType = 'none';
-    }
-    function closeMenu() {
-      burger.classList.remove('open'); mobmenu.classList.remove('open');
-      burger.setAttribute('aria-expanded', 'false');
-      mobmenu.setAttribute('aria-hidden', 'true');
-      document.body.style.overflowY = '';
-      document.body.style.scrollSnapType = '';
-    }
-    burger.addEventListener('click', () => (mobmenu.classList.contains('open') ? closeMenu : openMenu)());
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
-    window.closeMenu = closeMenu;
+      /* ── Respect reduced motion ── */
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /* ── Respect reduced motion ── */
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      /* ══════════════════════════════════════════════════════
+         GSAP SCROLL-SNAP SLIDE ANIMATIONS
+      ══════════════════════════════════════════════════════ */
+      gsap.registerPlugin(ScrollTrigger);
+      ScrollTrigger.defaults({ scroller: document.body });
 
-    /* ══════════════════════════════════════════════════════
-       GSAP SCROLL-SNAP SLIDE ANIMATIONS
-    ══════════════════════════════════════════════════════ */
-    gsap.registerPlugin(ScrollTrigger);
-    const scroller = scrollContainer;
-    ScrollTrigger.defaults({ scroller });
+      /* ── Slide indicator dots (right side) ── */
+      (function initSlideNav() {
+        const slides = document.querySelectorAll('.slide:not(.slide--auto)');
+        const dotWrap = document.createElement('div');
+        dotWrap.className = 'slide-dots';
+        dotWrap.setAttribute('aria-label', 'Folien-Navigation');
+        document.body.appendChild(dotWrap);
 
-    /* ── Slide indicator dots (right side) ── */
-    (function initSlideNav(){
-      const slides = document.querySelectorAll('.slide:not(.slide--auto)');
-      const dotWrap = document.createElement('div');
-      dotWrap.className = 'slide-dots';
-      dotWrap.setAttribute('aria-label', 'Folien-Navigation');
-      document.body.appendChild(dotWrap);
-
-      const dots = [];
-      slides.forEach((slide, i) => {
-        const dot = document.createElement('button');
-        dot.className = 'slide-dot';
-        dot.setAttribute('aria-label', slide.getAttribute('aria-label') || slide.getAttribute('aria-labelledby') || `Folie ${i+1}`);
-        dot.addEventListener('click', () => {
-          slide.scrollIntoView({ behavior: 'smooth' });
+        const dots = [];
+        slides.forEach((slide, i) => {
+          const dot = document.createElement('button');
+          dot.className = 'slide-dot';
+          dot.setAttribute('aria-label', slide.getAttribute('aria-label') || slide.getAttribute('aria-labelledby') || `Folie ${i + 1}`);
+          dot.addEventListener('click', () => {
+            slide.scrollIntoView({ behavior: 'smooth' });
+          });
+          dotWrap.appendChild(dot);
+          dots.push(dot);
         });
-        dotWrap.appendChild(dot);
-        dots.push(dot);
+
+        // Cache slide offsets — recalc on resize only
+        let slideOffsets = [];
+        function cacheOffsets() {
+          const scrollY = document.body.scrollTop;
+          slideOffsets = Array.from(slides).map(s => s.getBoundingClientRect().top + scrollY);
+        }
+        cacheOffsets();
+        window.addEventListener('resize', cacheOffsets, { passive: true });
+
+        let active = 0;
+        function updateActive() {
+          const scrollY = document.body.scrollTop;
+          const vh = window.innerHeight * 0.5;
+          let closest = 0;
+          let minDist = Infinity;
+          for (let i = 0; i < slideOffsets.length; i++) {
+            const dist = Math.abs(slideOffsets[i] - scrollY);
+            if (dist < minDist) { minDist = dist; closest = i; }
+          }
+          if (closest !== active) {
+            dots[active]?.classList.remove('active');
+            dots[closest]?.classList.add('active');
+            active = closest;
+          }
+        }
+        dots[0]?.classList.add('active');
+        onScrollThrottled(document.body, updateActive);
+      })();
+
+      /* ── 1. Per-section directional entrance animations ── */
+      if (prefersReduced) {
+        document.querySelectorAll('.rv').forEach(el => gsap.set(el, { opacity: 1, y: 0, x: 0 }));
+      } else {
+
+        /* — Hero: main content from left, sidebar from right — */
+        gsap.set(['.hero-mark', '.hero h1', '.hero-lede'], { opacity: 0, x: -50 });
+        gsap.set('.hero-side', { opacity: 0, x: 60 });
+        ScrollTrigger.create({
+          trigger: '#top', scroller: document.body, start: 'top 80%', once: true,
+          onEnter: () => {
+            gsap.to('.hero-mark', { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out', force3D: true });
+            gsap.to('.hero h1', { opacity: 1, x: 0, duration: 1, delay: 0.12, ease: 'power3.out', force3D: true });
+            gsap.to('.hero-lede', { opacity: 1, x: 0, duration: 0.9, delay: 0.24, ease: 'power3.out', force3D: true });
+            gsap.to('.hero-side', { opacity: 1, x: 0, duration: 1, delay: 0.3, ease: 'power3.out', force3D: true });
+          }
+        });
+
+        /* — Heritage: deco fades, quote scales (handled in #5), attr + body fade up — */
+        gsap.set('.heritage-deco', { opacity: 0, y: -20 });
+        gsap.set('.heritage-attr', { opacity: 0, y: 15 });
+        gsap.set('.heritage-body', { opacity: 0, y: 30 });
+        ScrollTrigger.create({
+          trigger: '#herkunft', scroller: document.body, start: 'top 60%', once: true,
+          onEnter: () => {
+            gsap.to('.heritage-deco', { opacity: 0.78, y: 0, duration: 0.8, ease: 'power2.out', force3D: true });
+            gsap.to('.heritage-attr', { opacity: 1, y: 0, duration: 0.7, delay: 0.4, ease: 'power3.out', force3D: true });
+            gsap.to('.heritage-body', { opacity: 1, y: 0, duration: 0.8, delay: 0.55, ease: 'power3.out', force3D: true });
+          }
+        });
+
+        /* — Figures: header from left — */
+        gsap.set('.figures-head', { opacity: 0, x: -40 });
+        ScrollTrigger.create({
+          trigger: '.figures', scroller: document.body, start: 'top 60%', once: true,
+          onEnter: () => {
+            gsap.to('.figures-head', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
+          }
+        });
+
+        /* — Sectors: header from left, lede from right — */
+        gsap.set('#sectors-head-text', { opacity: 0, x: -40 });
+        gsap.set('#sectors-lede', { opacity: 0, x: 40 });
+        ScrollTrigger.create({
+          trigger: '#branchen', scroller: document.body, start: 'top 60%', once: true,
+          onEnter: () => {
+            gsap.to('#sectors-head-text', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
+            gsap.to('#sectors-lede', { opacity: 1, x: 0, duration: 0.8, delay: 0.15, ease: 'power3.out', force3D: true });
+          }
+        });
+
+        /* — Portfolio: header from left, lede from right — */
+        gsap.set('#portfolio-head-text', { opacity: 0, x: -40 });
+        gsap.set('#portfolio-lede', { opacity: 0, x: 40 });
+        ScrollTrigger.create({
+          trigger: '#portfolio', scroller: document.body, start: 'top 60%', once: true,
+          onEnter: () => {
+            gsap.to('#portfolio-head-text', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
+            gsap.to('#portfolio-lede', { opacity: 1, x: 0, duration: 0.8, delay: 0.15, ease: 'power3.out', force3D: true });
+          }
+        });
+
+        /* — Principles: header from left, lede from right — */
+        gsap.set('#principles-head-text', { opacity: 0, x: -40 });
+        gsap.set('#principles-lede', { opacity: 0, x: 40 });
+        ScrollTrigger.create({
+          trigger: '#grundsaetze', scroller: document.body, start: 'top 60%', once: true,
+          onEnter: () => {
+            gsap.to('#principles-head-text', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
+            gsap.to('#principles-lede', { opacity: 1, x: 0, duration: 0.8, delay: 0.15, ease: 'power3.out', force3D: true });
+          }
+        });
+
+        /* — Locations: header from left, items stagger from right — */
+        const locHeader = document.querySelector('#standorte header');
+        const locItems = document.querySelectorAll('#standorte .loc');
+        gsap.set(locHeader, { opacity: 0, x: -40 });
+        gsap.set(locItems, { opacity: 0, x: 50 });
+        ScrollTrigger.create({
+          trigger: '#standorte', scroller: document.body, start: 'top 60%', once: true,
+          onEnter: () => {
+            gsap.to(locHeader, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
+            gsap.to(locItems, { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', stagger: 0.12, delay: 0.2, force3D: true });
+          }
+        });
+
+        /* — Contact: header from left, rows stagger from right — */
+        const contactHeader = document.querySelector('#kontakt header');
+        const contactRows = document.querySelectorAll('#kontakt .contact-row');
+        gsap.set(contactHeader, { opacity: 0, x: -40 });
+        gsap.set(contactRows, { opacity: 0, x: 50 });
+        ScrollTrigger.create({
+          trigger: '#kontakt', scroller: document.body, start: 'top 60%', once: true,
+          onEnter: () => {
+            gsap.to(contactHeader, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
+            gsap.to(contactRows, { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1, delay: 0.15, force3D: true });
+          }
+        });
+
+      } /* end !prefersReduced */
+
+      /* ── 2. Counter animation (figures) ── */
+      const countEls = document.querySelectorAll('[data-count]');
+      if (countEls.length) {
+        const figSlide = countEls[0].closest('.slide');
+        countEls.forEach(el => { el.textContent = '0'; });
+        ScrollTrigger.create({
+          trigger: figSlide || countEls[0],
+          scroller: document.body,
+          start: 'top 60%',
+          once: true,
+          onEnter: () => {
+            countEls.forEach(el => {
+              const end = parseInt(el.dataset.count, 10);
+              if (isNaN(end)) return;
+              const obj = { val: 0 };
+              gsap.to(obj, {
+                val: end,
+                duration: 1.4,
+                ease: 'power2.out',
+                onUpdate: () => { el.textContent = Math.round(obj.val); }
+              });
+            });
+          }
+        });
+      }
+
+      /* ── 3. Animated gold line (sectors) ── */
+      const sectorsLine = document.getElementById('sectors-line');
+      if (sectorsLine && !prefersReduced) {
+        gsap.set(sectorsLine, { width: 0 });
+        ScrollTrigger.create({
+          trigger: sectorsLine.closest('.slide'),
+          scroller: document.body,
+          start: 'top 60%',
+          once: true,
+          onEnter: () => {
+            gsap.to(sectorsLine, { width: '100%', duration: 1.2, ease: 'power2.out' });
+          }
+        });
+      }
+
+      /* ── 4. Sector list — staggered opacity+translate reveal (GPU-friendly) ── */
+      const sectorItems = document.querySelectorAll('#sector-list li');
+      if (!prefersReduced && sectorItems.length) {
+        gsap.set(sectorItems, { opacity: 0, x: -30 });
+        ScrollTrigger.create({
+          trigger: '#branchen',
+          scroller: document.body,
+          start: 'top 60%',
+          once: true,
+          onEnter: () => {
+            gsap.to(sectorItems, {
+              opacity: 1, x: 0,
+              duration: 0.7,
+              ease: 'power3.out',
+              stagger: 0.08,
+              force3D: true
+            });
+          }
+        });
+      }
+
+      /* ── 5. Heritage quote scale-in ── */
+      if (!prefersReduced) {
+        gsap.set('.heritage-quote', { scale: 0.92, opacity: 0 });
+        ScrollTrigger.create({
+          trigger: '#herkunft',
+          scroller: document.body,
+          start: 'top 60%',
+          once: true,
+          onEnter: () => {
+            gsap.to('.heritage-quote', { scale: 1, opacity: 1, duration: 1, ease: 'power2.out', force3D: true });
+          }
+        });
+      }
+
+      /* ── 6. Figures grid — stagger from below ── */
+      if (!prefersReduced) {
+        gsap.set('.fig', { y: 40, opacity: 0 });
+        ScrollTrigger.create({
+          trigger: '.figures-grid',
+          scroller: document.body,
+          start: 'top 80%',
+          once: true,
+          onEnter: () => {
+            gsap.to('.fig', { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.11, force3D: true });
+          }
+        });
+      }
+
+      /* ── 7. Portfolio cards animate in from right ── */
+      if (!prefersReduced) {
+        gsap.set('.venture-card', { x: 60, opacity: 0 });
+        ScrollTrigger.create({
+          trigger: '#portfolio',
+          scroller: document.body,
+          start: 'top 60%',
+          once: true,
+          onEnter: () => {
+            gsap.to('.venture-card', { x: 0, opacity: 1, duration: 0.75, ease: 'power3.out', stagger: 0.08, force3D: true });
+          }
+        });
+      }
+
+      /* ── 8. Principles grid — staggered reveal ── */
+      if (!prefersReduced) {
+        gsap.set('#grundsaetze .principle', { y: 30, opacity: 0 });
+        ScrollTrigger.create({
+          trigger: '#grundsaetze',
+          scroller: document.body,
+          start: 'top 60%',
+          once: true,
+          onEnter: () => {
+            gsap.to('#grundsaetze .principle', { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.12, force3D: true });
+          }
+        });
+      }
+
+      /* ── 9. Scroll-Snap dot indicators (portfolio carousel) ── */
+      (function initSnapDots() {
+        const wrap = document.getElementById('portfolioSnap');
+        const dotsC = document.getElementById('snapDots');
+        if (!wrap || !dotsC) return;
+        const cards = wrap.querySelectorAll('.venture-card');
+        const dots = [];
+        cards.forEach((_, i) => {
+          const d = document.createElement('button');
+          d.className = 'snap-dot';
+          d.setAttribute('aria-label', 'Unternehmen ' + (i + 1));
+          d.addEventListener('click', () => {
+            cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+          });
+          dotsC.appendChild(d);
+          dots.push(d);
+        });
+
+        let activeDot = 0;
+        function updateDots() {
+          const cw = cards[0].offsetWidth;
+          const idx = Math.round(wrap.scrollLeft / cw);
+          if (idx !== activeDot) {
+            dots[activeDot]?.classList.remove('active');
+            dots[idx]?.classList.add('active');
+            activeDot = idx;
+          }
+        }
+        dots[0]?.classList.add('active');
+        onScrollThrottled(wrap, updateDots);
+      })();
+
+      /* ── 10. Keyboard navigation: Arrow keys to navigate slides ── */
+      const allSlides = Array.from(document.querySelectorAll('.slide:not(.slide--auto)'));
+      let cachedSlideOffsets = [];
+      function cacheSlideOffsets() {
+        const scrollY = document.body.scrollTop;
+        cachedSlideOffsets = allSlides.map(s => s.getBoundingClientRect().top + scrollY);
+      }
+      cacheSlideOffsets();
+      window.addEventListener('resize', cacheSlideOffsets, { passive: true });
+
+      document.addEventListener('keydown', e => {
+        if (mobmenu.classList.contains('open')) return;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          const curr = getCurrentSlideIndex();
+          if (curr < allSlides.length - 1) allSlides[curr + 1].scrollIntoView({ behavior: 'smooth' });
+        }
+        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          const curr = getCurrentSlideIndex();
+          if (curr > 0) allSlides[curr - 1].scrollIntoView({ behavior: 'smooth' });
+        }
       });
 
-      // Cache slide offsets — recalc on resize only
-      let slideOffsets = [];
-      function cacheOffsets() {
-        const scrollY = getScrollY();
-        slideOffsets = Array.from(slides).map(s => s.getBoundingClientRect().top + scrollY);
-      }
-      cacheOffsets();
-      window.addEventListener('resize', cacheOffsets, { passive: true });
-
-      let active = 0;
-      function updateActive() {
-        const scrollY = getScrollY();
-        let closest = 0;
-        let minDist = Infinity;
-        for (let i = 0; i < slideOffsets.length; i++) {
-          const dist = Math.abs(slideOffsets[i] - scrollY);
+      function getCurrentSlideIndex() {
+        const scrollY = document.body.scrollTop;
+        let closest = 0, minDist = Infinity;
+        for (let i = 0; i < cachedSlideOffsets.length; i++) {
+          const dist = Math.abs(cachedSlideOffsets[i] - scrollY);
           if (dist < minDist) { minDist = dist; closest = i; }
         }
-        if (closest !== active) {
-          dots[active]?.classList.remove('active');
-          dots[closest]?.classList.add('active');
-          active = closest;
-        }
+        return closest;
       }
-      dots[0]?.classList.add('active');
-      onScrollThrottled(scrollContainer, updateActive);
+
     })();
-
-    /* ── 1. Per-section directional entrance animations ── */
-    if (prefersReduced) {
-      document.querySelectorAll('.rv').forEach(el => gsap.set(el, { opacity: 1, y: 0, x: 0 }));
-    } else {
-
-      /* — Hero: main content from left, sidebar from right — */
-      gsap.set(['.hero-mark', '.hero h1', '.hero-lede'], { opacity: 0, x: -50 });
-      gsap.set('.hero-side', { opacity: 0, x: 60 });
-      ScrollTrigger.create({
-        trigger: '#top', scroller, start: 'top 80%', once: true,
-        onEnter: () => {
-          gsap.to('.hero-mark', { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out', force3D: true });
-          gsap.to('.hero h1', { opacity: 1, x: 0, duration: 1, delay: 0.12, ease: 'power3.out', force3D: true });
-          gsap.to('.hero-lede', { opacity: 1, x: 0, duration: 0.9, delay: 0.24, ease: 'power3.out', force3D: true });
-          gsap.to('.hero-side', { opacity: 1, x: 0, duration: 1, delay: 0.3, ease: 'power3.out', force3D: true });
-        }
-      });
-
-      /* — Heritage: deco fades, quote scales (handled in #5), attr + body fade up — */
-      gsap.set('.heritage-deco', { opacity: 0, y: -20 });
-      gsap.set('.heritage-attr', { opacity: 0, y: 15 });
-      gsap.set('.heritage-body', { opacity: 0, y: 30 });
-      ScrollTrigger.create({
-        trigger: '#herkunft', scroller, start: 'top 60%', once: true,
-        onEnter: () => {
-          gsap.to('.heritage-deco', { opacity: 0.78, y: 0, duration: 0.8, ease: 'power2.out', force3D: true });
-          gsap.to('.heritage-attr', { opacity: 1, y: 0, duration: 0.7, delay: 0.4, ease: 'power3.out', force3D: true });
-          gsap.to('.heritage-body', { opacity: 1, y: 0, duration: 0.8, delay: 0.55, ease: 'power3.out', force3D: true });
-        }
-      });
-
-      /* — Figures: header from left — */
-      gsap.set('.figures-head', { opacity: 0, x: -40 });
-      ScrollTrigger.create({
-        trigger: '.figures', scroller, start: 'top 60%', once: true,
-        onEnter: () => {
-          gsap.to('.figures-head', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
-        }
-      });
-
-      /* — Sectors: header from left, lede from right — */
-      gsap.set('#sectors-head-text', { opacity: 0, x: -40 });
-      gsap.set('#sectors-lede', { opacity: 0, x: 40 });
-      ScrollTrigger.create({
-        trigger: '#branchen', scroller, start: 'top 60%', once: true,
-        onEnter: () => {
-          gsap.to('#sectors-head-text', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
-          gsap.to('#sectors-lede', { opacity: 1, x: 0, duration: 0.8, delay: 0.15, ease: 'power3.out', force3D: true });
-        }
-      });
-
-      /* — Portfolio: header from left, lede from right — */
-      gsap.set('#portfolio-head-text', { opacity: 0, x: -40 });
-      gsap.set('#portfolio-lede', { opacity: 0, x: 40 });
-      ScrollTrigger.create({
-        trigger: '#portfolio', scroller, start: 'top 60%', once: true,
-        onEnter: () => {
-          gsap.to('#portfolio-head-text', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
-          gsap.to('#portfolio-lede', { opacity: 1, x: 0, duration: 0.8, delay: 0.15, ease: 'power3.out', force3D: true });
-        }
-      });
-
-      /* — Principles: header from left, lede from right — */
-      gsap.set('#principles-head-text', { opacity: 0, x: -40 });
-      gsap.set('#principles-lede', { opacity: 0, x: 40 });
-      ScrollTrigger.create({
-        trigger: '#grundsaetze', scroller, start: 'top 60%', once: true,
-        onEnter: () => {
-          gsap.to('#principles-head-text', { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
-          gsap.to('#principles-lede', { opacity: 1, x: 0, duration: 0.8, delay: 0.15, ease: 'power3.out', force3D: true });
-        }
-      });
-
-      /* — Locations: header from left, items stagger from right — */
-      const locHeader = document.querySelector('#standorte header');
-      const locItems = document.querySelectorAll('#standorte .loc');
-      gsap.set(locHeader, { opacity: 0, x: -40 });
-      gsap.set(locItems, { opacity: 0, x: 50 });
-      ScrollTrigger.create({
-        trigger: '#standorte', scroller, start: 'top 60%', once: true,
-        onEnter: () => {
-          gsap.to(locHeader, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
-          gsap.to(locItems, { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', stagger: 0.12, delay: 0.2, force3D: true });
-        }
-      });
-
-      /* — Contact: header from left, rows stagger from right — */
-      const contactHeader = document.querySelector('#kontakt header');
-      const contactRows = document.querySelectorAll('#kontakt .contact-row');
-      gsap.set(contactHeader, { opacity: 0, x: -40 });
-      gsap.set(contactRows, { opacity: 0, x: 50 });
-      ScrollTrigger.create({
-        trigger: '#kontakt', scroller, start: 'top 60%', once: true,
-        onEnter: () => {
-          gsap.to(contactHeader, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', force3D: true });
-          gsap.to(contactRows, { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1, delay: 0.15, force3D: true });
-        }
-      });
-
-    } /* end !prefersReduced */
-
-    /* ── 2. Counter animation (figures) ── */
-    const countEls = document.querySelectorAll('[data-count]');
-    if (countEls.length) {
-      const figSlide = countEls[0].closest('.slide');
-      countEls.forEach(el => { el.textContent = '0'; });
-      ScrollTrigger.create({
-        trigger: figSlide || countEls[0],
-        scroller,
-        start: 'top 60%',
-        once: true,
-        onEnter: () => {
-          countEls.forEach(el => {
-            const end = parseInt(el.dataset.count, 10);
-            if (isNaN(end)) return;
-            const obj = { val: 0 };
-            gsap.to(obj, {
-              val: end,
-              duration: 1.4,
-              ease: 'power2.out',
-              onUpdate: () => { el.textContent = Math.round(obj.val); }
-            });
-          });
-        }
-      });
-    }
-
-    /* ── 3. Animated gold line (sectors) ── */
-    const sectorsLine = document.getElementById('sectors-line');
-    if (sectorsLine && !prefersReduced) {
-      gsap.set(sectorsLine, { width: 0 });
-      ScrollTrigger.create({
-        trigger: sectorsLine.closest('.slide'),
-        scroller,
-        start: 'top 60%',
-        once: true,
-        onEnter: () => {
-          gsap.to(sectorsLine, { width: '100%', duration: 1.2, ease: 'power2.out' });
-        }
-      });
-    }
-
-    /* ── 4. Sector list — staggered opacity+translate reveal (GPU-friendly) ── */
-    const sectorItems = document.querySelectorAll('#sector-list li');
-    if (!prefersReduced && sectorItems.length) {
-      gsap.set(sectorItems, { opacity: 0, x: -30 });
-      ScrollTrigger.create({
-        trigger: '#branchen',
-        scroller,
-        start: 'top 60%',
-        once: true,
-        onEnter: () => {
-          gsap.to(sectorItems, {
-            opacity: 1, x: 0,
-            duration: 0.7,
-            ease: 'power3.out',
-            stagger: 0.08,
-            force3D: true
-          });
-        }
-      });
-    }
-
-    /* ── 5. Heritage quote scale-in ── */
-    if (!prefersReduced) {
-      gsap.set('.heritage-quote', { scale: 0.92, opacity: 0 });
-      ScrollTrigger.create({
-        trigger: '#herkunft',
-        scroller,
-        start: 'top 60%',
-        once: true,
-        onEnter: () => {
-          gsap.to('.heritage-quote', { scale: 1, opacity: 1, duration: 1, ease: 'power2.out', force3D: true });
-        }
-      });
-    }
-
-    /* ── 6. Figures grid — stagger from below ── */
-    if (!prefersReduced) {
-      gsap.set('.fig', { y: 40, opacity: 0 });
-      ScrollTrigger.create({
-        trigger: '.figures-grid',
-        scroller,
-        start: 'top 80%',
-        once: true,
-        onEnter: () => {
-          gsap.to('.fig', { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.11, force3D: true });
-        }
-      });
-    }
-
-    /* ── 7. Portfolio cards animate in from right ── */
-    if (!prefersReduced) {
-      gsap.set('.venture-card', { x: 60, opacity: 0 });
-      ScrollTrigger.create({
-        trigger: '#portfolio',
-        scroller,
-        start: 'top 60%',
-        once: true,
-        onEnter: () => {
-          gsap.to('.venture-card', { x: 0, opacity: 1, duration: 0.75, ease: 'power3.out', stagger: 0.08, force3D: true });
-        }
-      });
-    }
-
-    /* ── 8. Principles grid — staggered reveal ── */
-    if (!prefersReduced) {
-      gsap.set('#grundsaetze .principle', { y: 30, opacity: 0 });
-      ScrollTrigger.create({
-        trigger: '#grundsaetze',
-        scroller,
-        start: 'top 60%',
-        once: true,
-        onEnter: () => {
-          gsap.to('#grundsaetze .principle', { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.12, force3D: true });
-        }
-      });
-    }
-
-    /* ── 9. Scroll-Snap dot indicators (portfolio carousel) ── */
-    (function initSnapDots(){
-      const wrap  = document.getElementById('portfolioSnap');
-      const dotsC = document.getElementById('snapDots');
-      if (!wrap || !dotsC) return;
-      const cards = wrap.querySelectorAll('.venture-card');
-      const dots  = [];
-      cards.forEach((_, i) => {
-        const d = document.createElement('button');
-        d.className = 'snap-dot';
-        d.setAttribute('aria-label', 'Unternehmen ' + (i+1));
-        d.addEventListener('click', () => {
-          cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-        });
-        dotsC.appendChild(d);
-        dots.push(d);
-      });
-
-      let activeDot = 0;
-      function updateDots() {
-        const cw = cards[0].offsetWidth;
-        const idx = Math.round(wrap.scrollLeft / cw);
-        if (idx !== activeDot) {
-          dots[activeDot]?.classList.remove('active');
-          dots[idx]?.classList.add('active');
-          activeDot = idx;
-        }
-      }
-      dots[0]?.classList.add('active');
-      onScrollThrottled(wrap, updateDots);
-    })();
-
-    /* ── 10. Keyboard navigation: Arrow keys to navigate slides ── */
-    const allSlides = Array.from(document.querySelectorAll('.slide:not(.slide--auto)'));
-    let cachedSlideOffsets = [];
-    function cacheSlideOffsets() {
-      const scrollY = getScrollY();
-      cachedSlideOffsets = allSlides.map(s => s.getBoundingClientRect().top + scrollY);
-    }
-    cacheSlideOffsets();
-    window.addEventListener('resize', cacheSlideOffsets, { passive: true });
-
-    document.addEventListener('keydown', e => {
-      if (mobmenu.classList.contains('open')) return;
-      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-        e.preventDefault();
-        const curr = getCurrentSlideIndex();
-        if (curr < allSlides.length - 1) allSlides[curr + 1].scrollIntoView({ behavior: 'smooth' });
-      }
-      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-        e.preventDefault();
-        const curr = getCurrentSlideIndex();
-        if (curr > 0) allSlides[curr - 1].scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-
-    function getCurrentSlideIndex() {
-      const scrollY = getScrollY();
-      let closest = 0, minDist = Infinity;
-      for (let i = 0; i < cachedSlideOffsets.length; i++) {
-        const dist = Math.abs(cachedSlideOffsets[i] - scrollY);
-        if (dist < minDist) { minDist = dist; closest = i; }
-      }
-      return closest;
-    }
-
-  })();
   </script>
 </body>
+
 </html>
