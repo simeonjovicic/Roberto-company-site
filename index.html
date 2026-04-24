@@ -10,6 +10,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet"/>
 
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
   <style>
     /* ============================================================
        TOKENS
@@ -177,19 +181,205 @@
       color: var(--gold-bright);
     }
 
-    /* Reveal */
+    /* Reveal — kept as progressive enhancement fallback */
     .rv {
       opacity: 0;
-      transform: translateY(18px);
-      transition: opacity .9s var(--ease), transform .9s var(--ease);
+      transform: translateY(22px);
       will-change: opacity, transform;
     }
-    .rv.in { opacity: 1; transform: none; }
+    .rv.in { opacity: 1; transform: none;
+      transition: opacity .9s var(--ease), transform .9s var(--ease);
+    }
     .d1 { transition-delay: .08s; }
     .d2 { transition-delay: .16s; }
     .d3 { transition-delay: .24s; }
     .d4 { transition-delay: .32s; }
     .d5 { transition-delay: .40s; }
+
+    /* ============================================================
+       SCROLL-SNAP PORTFOLIO CAROUSEL
+    ============================================================ */
+    .portfolio-snap-wrap {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      gap: 0;
+      margin-top: 2.5rem;
+      /* hide scrollbar but keep functionality */
+      scrollbar-width: none;
+    }
+    .portfolio-snap-wrap::-webkit-scrollbar { display: none; }
+
+    .venture-card {
+      scroll-snap-align: start;
+      flex: 0 0 min(88vw, 360px);
+      border: 1px solid var(--line);
+      border-right: none;
+      background: var(--bg-1);
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      cursor: default;
+      position: relative;
+      transition: background .35s var(--ease);
+      overflow: hidden;
+    }
+    .venture-card:last-child { border-right: 1px solid var(--line); }
+    .venture-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 120%, rgba(184,148,84,.09), transparent);
+      opacity: 0;
+      transition: opacity .5s;
+    }
+    .venture-card:hover::before { opacity: 1; }
+    .venture-card:hover { background: var(--bg-2); }
+
+    .vc-n {
+      font-family: var(--ff-serif);
+      font-size: .8rem;
+      color: var(--gold);
+      font-weight: 400;
+      font-feature-settings: "tnum";
+    }
+    .vc-name {
+      font-family: var(--ff-serif);
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--t-0);
+      line-height: 1.2;
+      margin-top: .5rem;
+    }
+    .vc-cat {
+      font-size: .68rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--t-2);
+      font-weight: 500;
+      margin-top: .35rem;
+    }
+    .vc-arrow {
+      margin-top: auto;
+      padding-top: 2rem;
+      font-size: .85rem;
+      color: var(--gold);
+      letter-spacing: .12em;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      opacity: .5;
+      transition: opacity .3s, gap .3s var(--ease);
+    }
+    .venture-card:hover .vc-arrow { opacity: 1; gap: .75rem; }
+    .vc-arrow::after { content: '→'; font-size: 1rem; }
+
+    /* Snap indicator dots */
+    .snap-dots {
+      display: flex;
+      gap: .5rem;
+      margin-top: 1.5rem;
+      padding-left: 2px;
+    }
+    .snap-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--line-strong);
+      transition: background .3s, transform .3s;
+      cursor: pointer;
+    }
+    .snap-dot.active {
+      background: var(--gold);
+      transform: scale(1.4);
+    }
+
+    /* ============================================================
+       SCROLLYTELLING — PRINCIPLES PIN
+    ============================================================ */
+    .principles-story {
+      position: relative;
+    }
+    .principles-sticky-wrap {
+      /* GSAP will pin this */
+      display: flex;
+      align-items: stretch;
+    }
+    .principles-sidebar {
+      width: 42%;
+      flex-shrink: 0;
+      padding: var(--sect-y) var(--gutter) var(--sect-y) 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .principles-panels {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .pstory-panel {
+      min-height: 50vh;
+      display: flex;
+      align-items: center;
+      padding: 3rem 0;
+      opacity: 0;
+      transform: translateX(32px);
+    }
+
+    /* Progress bar */
+    .principles-progress {
+      position: absolute;
+      left: 42%;
+      top: 0;
+      width: 1px;
+      height: 100%;
+      background: var(--line);
+    }
+    .principles-progress-bar {
+      width: 1px;
+      height: 0%;
+      background: linear-gradient(to bottom, var(--gold), var(--gold-bright));
+      transition: height .1s linear;
+    }
+
+    /* Mobile: stack normally */
+    @media (max-width: 768px) {
+      .principles-sidebar { width: 100%; padding-bottom: 2rem; }
+      .principles-sticky-wrap { flex-direction: column; }
+      .principles-panels { padding-top: 0; }
+      .pstory-panel { min-height: auto; opacity: 1; transform: none; padding: 1.5rem 0; }
+      .principles-progress { display: none; }
+    }
+
+    /* ============================================================
+       GSAP STRIP — animated gold line across sections
+    ============================================================ */
+    .scroll-line {
+      display: block;
+      width: 0;
+      height: 1px;
+      background: linear-gradient(to right, var(--gold), var(--gold-bright), transparent);
+      margin: 2rem 0;
+    }
+
+    /* ============================================================
+       PARALLAX HERO TEXT
+    ============================================================ */
+    .hero-parallax { will-change: transform; }
+
+    /* ============================================================
+       SECTOR LIST ANIMATION
+    ============================================================ */
+    .sector-list li {
+      /* will be animated by GSAP */
+      clip-path: inset(0 100% 0 0);
+    }
+    .sector-list li.sector-revealed {
+      clip-path: inset(0 0% 0 0);
+    }
 
     /* ============================================================
        NAV
@@ -945,6 +1135,8 @@
       .rv { opacity: 1; transform: none; transition: none; }
       .hero-scroll::after { animation: none; }
       * { scroll-behavior: auto !important; }
+      .sector-list li { clip-path: none !important; }
+      .pstory-panel { opacity: 1 !important; transform: none !important; }
     }
   </style>
 </head>
@@ -1108,39 +1300,41 @@
   <section class="section sectors" id="branchen" aria-labelledby="sectors-h">
     <div class="wrap">
       <header class="sectors-head">
-        <div class="rv">
+        <div class="rv" id="sectors-head-text">
           <p class="eyebrow">Branchen</p>
           <h2 class="h-section" id="sectors-h">Fünf Sektoren.<br/><em>Ein Qualitätsanspruch.</em></h2>
         </div>
-        <p class="lede rv d1">
+        <p class="lede rv d1" id="sectors-lede">
           Die Gruppe bündelt Unternehmen aus fünf Kernbereichen.
           In jedem Sektor verfolgen wir denselben Grundgedanken:
           Qualität vor Lautstärke, Haltung vor Trend.
         </p>
       </header>
 
-      <ul class="sector-list" role="list">
-        <li class="rv">
+      <span class="scroll-line" id="sectors-line"></span>
+
+      <ul class="sector-list" role="list" id="sector-list">
+        <li>
           <span class="sk">01</span>
           <span class="sn">Hospitality</span>
           <span class="sd">Boutique-Hotellerie mit persönlicher Führung und klarem Gestaltungswillen.</span>
         </li>
-        <li class="rv d1">
+        <li>
           <span class="sk">02</span>
           <span class="sn">Gastronomie</span>
           <span class="sd">Italienische Küche auf höchstem Niveau &mdash; sorgfältig geführte Häuser im ersten Bezirk.</span>
         </li>
-        <li class="rv d2">
+        <li>
           <span class="sk">03</span>
           <span class="sn">Fitness &amp; Sport</span>
           <span class="sd">Individuelles Coaching, Personal Training und Kampfsport-Events mit professioneller Inszenierung.</span>
         </li>
-        <li class="rv d3">
+        <li>
           <span class="sk">04</span>
           <span class="sn">Consulting</span>
           <span class="sd">Strategische Beratung für Unternehmen und Privatpersonen mit Anspruch an Diskretion.</span>
         </li>
-        <li class="rv d4">
+        <li>
           <span class="sk">05</span>
           <span class="sn">Lifestyle &amp; Produkt</span>
           <span class="sd">Premium-Produkte italienischer Herkunft &mdash; Olivenöl, Maßschneiderei, Supplements, Reisen.</span>
@@ -1149,141 +1343,173 @@
     </div>
   </section>
 
-  <!-- ==================== PORTFOLIO ==================== -->
+  <!-- ==================== PORTFOLIO — Scroll Snap Carousel ==================== -->
   <section class="section portfolio" id="portfolio" aria-labelledby="portfolio-h">
     <div class="wrap">
       <header class="portfolio-head">
-        <div class="rv">
+        <div class="rv" id="portfolio-head-text">
           <p class="eyebrow">Portfolio</p>
           <h2 class="h-section" id="portfolio-h">Die Unternehmen<br/>der Gruppe.</h2>
         </div>
-        <p class="lede rv d1">
+        <p class="lede rv d1" id="portfolio-lede">
           Zehn Marken unter einem Dach. Jede mit eigener Identität,
           alle mit gemeinsamer Handschrift.
         </p>
       </header>
+    </div>
 
-      <ol class="portfolio-list" role="list">
-        <li class="venture rv">
-          <span class="venture-n">01</span>
-          <div class="venture-body">
-            <span class="venture-name">Datri Petite-Suite</span>
-            <span class="venture-cat">Boutique-Hotellerie</span>
-          </div>
-          <span class="venture-arrow" aria-hidden="true">&rarr;</span>
-        </li>
-        <li class="venture rv">
-          <span class="venture-n">02</span>
-          <div class="venture-body">
-            <span class="venture-name">Ristorante Il Melograno</span>
-            <span class="venture-cat">Gastronomie &middot; Wien I.</span>
-          </div>
-          <span class="venture-arrow" aria-hidden="true">&rarr;</span>
-        </li>
-        <li class="venture rv">
-          <span class="venture-n">03</span>
-          <div class="venture-body">
-            <span class="venture-name">Datri Personal Training</span>
-            <span class="venture-cat">Fitness &amp; Coaching</span>
-          </div>
-          <span class="venture-arrow" aria-hidden="true">&rarr;</span>
-        </li>
-        <li class="venture rv">
-          <span class="venture-n">04</span>
-          <div class="venture-body">
-            <span class="venture-name">Datri Consulting</span>
-            <span class="venture-cat">Strategieberatung</span>
-          </div>
-          <span class="venture-arrow" aria-hidden="true">&rarr;</span>
-        </li>
-        <li class="venture rv">
-          <span class="venture-n">05</span>
-          <div class="venture-body">
-            <span class="venture-name">Datri Puglia Tours</span>
-            <span class="venture-cat">Reiseerlebnisse &middot; Süditalien</span>
-          </div>
-          <span class="venture-arrow" aria-hidden="true">&rarr;</span>
-        </li>
-        <li class="venture rv">
-          <span class="venture-n">06</span>
-          <div class="venture-body">
-            <span class="venture-name">Datri Olio Evo Bio</span>
-            <span class="venture-cat">Bio-Olivenöl aus Puglia</span>
-          </div>
-          <span class="venture-arrow" aria-hidden="true">&rarr;</span>
-        </li>
-        <li class="venture rv">
-          <span class="venture-n">07</span>
-          <div class="venture-body">
-            <span class="venture-name">Datri Premium Supplements</span>
-            <span class="venture-cat">Performance-Nahrungsergänzung</span>
-          </div>
-          <span class="venture-arrow" aria-hidden="true">&rarr;</span>
-        </li>
-        <li class="venture rv">
-          <span class="venture-n">08</span>
-          <div class="venture-body">
-            <span class="venture-name">Datri Made in Napoli</span>
-            <span class="venture-cat">Maßschneiderei &middot; Napoli</span>
-          </div>
-          <span class="venture-arrow" aria-hidden="true">&rarr;</span>
-        </li>
-        <li class="venture rv">
-          <span class="venture-n">09</span>
-          <div class="venture-body">
-            <span class="venture-name">Datri Gold$Title</span>
-            <span class="venture-cat">Kampfsport &amp; Event-Promotion</span>
-          </div>
-          <span class="venture-arrow" aria-hidden="true">&rarr;</span>
-        </li>
-        <li class="venture rv">
-          <span class="venture-n">10</span>
-          <div class="venture-body">
-            <span class="venture-name">Bündnis KinderSchutz</span>
-            <span class="venture-cat">Gesellschaftliches Engagement</span>
-          </div>
-          <span class="venture-arrow" aria-hidden="true">&rarr;</span>
-        </li>
-      </ol>
+    <!-- Horizontal Scroll-Snap Cards -->
+    <div class="portfolio-snap-wrap" id="portfolioSnap" role="list" aria-label="Unternehmens-Portfolio">
+
+      <article class="venture-card" role="listitem">
+        <span class="vc-n">01</span>
+        <h3 class="vc-name">Datri Petite-Suite</h3>
+        <span class="vc-cat">Boutique-Hotellerie</span>
+        <span class="vc-arrow">Mehr erfahren</span>
+      </article>
+
+      <article class="venture-card" role="listitem">
+        <span class="vc-n">02</span>
+        <h3 class="vc-name">Ristorante Il Melograno</h3>
+        <span class="vc-cat">Gastronomie &middot; Wien I.</span>
+        <span class="vc-arrow">Mehr erfahren</span>
+      </article>
+
+      <article class="venture-card" role="listitem">
+        <span class="vc-n">03</span>
+        <h3 class="vc-name">Datri Personal Training</h3>
+        <span class="vc-cat">Fitness &amp; Coaching</span>
+        <span class="vc-arrow">Mehr erfahren</span>
+      </article>
+
+      <article class="venture-card" role="listitem">
+        <span class="vc-n">04</span>
+        <h3 class="vc-name">Datri Consulting</h3>
+        <span class="vc-cat">Strategieberatung</span>
+        <span class="vc-arrow">Mehr erfahren</span>
+      </article>
+
+      <article class="venture-card" role="listitem">
+        <span class="vc-n">05</span>
+        <h3 class="vc-name">Datri Puglia Tours</h3>
+        <span class="vc-cat">Reiseerlebnisse &middot; Süditalien</span>
+        <span class="vc-arrow">Mehr erfahren</span>
+      </article>
+
+      <article class="venture-card" role="listitem">
+        <span class="vc-n">06</span>
+        <h3 class="vc-name">Datri Olio Evo Bio</h3>
+        <span class="vc-cat">Bio-Olivenöl aus Puglia</span>
+        <span class="vc-arrow">Mehr erfahren</span>
+      </article>
+
+      <article class="venture-card" role="listitem">
+        <span class="vc-n">07</span>
+        <h3 class="vc-name">Datri Premium Supplements</h3>
+        <span class="vc-cat">Performance-Nahrungsergänzung</span>
+        <span class="vc-arrow">Mehr erfahren</span>
+      </article>
+
+      <article class="venture-card" role="listitem">
+        <span class="vc-n">08</span>
+        <h3 class="vc-name">Datri Made in Napoli</h3>
+        <span class="vc-cat">Maßschneiderei &middot; Napoli</span>
+        <span class="vc-arrow">Mehr erfahren</span>
+      </article>
+
+      <article class="venture-card" role="listitem">
+        <span class="vc-n">09</span>
+        <h3 class="vc-name">Datri GoldTitle</h3>
+        <span class="vc-cat">Kampfsport &amp; Event-Promotion</span>
+        <span class="vc-arrow">Mehr erfahren</span>
+      </article>
+
+      <article class="venture-card" role="listitem">
+        <span class="vc-n">10</span>
+        <h3 class="vc-name">Bündnis KinderSchutz</h3>
+        <span class="vc-cat">Gesellschaftliches Engagement</span>
+        <span class="vc-arrow">Mehr erfahren</span>
+      </article>
+
+    </div>
+
+    <!-- Dot indicators -->
+    <div class="wrap">
+      <div class="snap-dots" id="snapDots" aria-hidden="true"></div>
     </div>
   </section>
 
-  <!-- ==================== PRINCIPLES ==================== -->
-  <section class="section principles" id="grundsaetze" aria-labelledby="principles-h">
+  <!-- ==================== PRINCIPLES — Scrollytelling ==================== -->
+  <section class="section principles principles-story" id="grundsaetze" aria-labelledby="principles-h">
     <div class="wrap">
+
+      <!-- Mobile header (always visible) -->
       <header class="principles-head">
-        <div class="rv">
+        <div class="rv" id="principles-head-text">
           <p class="eyebrow">Grundsätze</p>
           <h2 class="h-section" id="principles-h">Woran wir uns<br/>messen lassen.</h2>
         </div>
-        <p class="lede rv d1">
+        <p class="lede rv d1" id="principles-lede">
           Vier Prinzipien ziehen sich durch alles, was wir tun &mdash;
           unabhängig von Branche, Haus oder Markt.
         </p>
       </header>
 
-      <div class="principles-grid rv d2">
-        <div class="principle">
-          <span class="principle-k">I.</span>
-          <h3 class="principle-h">Familie zuerst</h3>
-          <p class="principle-p">Jedes Unternehmen wird geführt, als gehöre es zur Familie &mdash; weil es das tut.</p>
+      <!-- Desktop Scrollytelling layout -->
+      <div class="principles-sticky-wrap" id="principlesStickyWrap">
+
+        <!-- Left sticky sidebar (pinned by GSAP) -->
+        <div class="principles-sidebar" id="principlesSidebar">
+          <!-- Animated counter showing current principle -->
+          <p class="eyebrow" style="margin-bottom:1.25rem">Grundsätze</p>
+          <div id="p-counter" style="font-family:var(--ff-serif);font-size:clamp(4rem,10vw,7rem);font-weight:400;color:var(--gold);opacity:.12;line-height:1;user-select:none">I.</div>
+          <h3 id="p-title" style="font-family:var(--ff-serif);font-size:clamp(1.4rem,3vw,2rem);font-weight:400;color:var(--t-0);margin-top:1rem;line-height:1.2">Familie zuerst</h3>
+          <p id="p-desc" style="margin-top:1rem;font-size:.92rem;line-height:1.75;color:var(--t-1);max-width:32ch">Jedes Unternehmen wird geführt, als gehöre es zur Familie &mdash; weil es das tut.</p>
         </div>
-        <div class="principle">
-          <span class="principle-k">II.</span>
-          <h3 class="principle-h">Qualität ohne Kompromiss</h3>
-          <p class="principle-p">Wir bauen keine schnellen Produkte. Wir bauen Häuser, die Bestand haben.</p>
+
+        <!-- Progress bar -->
+        <div class="principles-progress" aria-hidden="true">
+          <div class="principles-progress-bar" id="principlesProgressBar"></div>
         </div>
-        <div class="principle">
-          <span class="principle-k">III.</span>
-          <h3 class="principle-h">Italienische Handschrift</h3>
-          <p class="principle-p">Unsere Wurzeln prägen Ästhetik, Material und Umgang &mdash; sichtbar und spürbar.</p>
-        </div>
-        <div class="principle">
-          <span class="principle-k">IV.</span>
-          <h3 class="principle-h">Diskretion &amp; Service</h3>
-          <p class="principle-p">Wer uns vertraut, erwartet zurückhaltende Professionalität. Das ist unser Standard.</p>
-        </div>
-      </div>
+
+        <!-- Right scrollable panels -->
+        <div class="principles-panels" id="principlesPanels">
+
+          <div class="pstory-panel" id="pstory-0" data-roman="I." data-title="Familie zuerst" data-desc="Jedes Unternehmen wird geführt, als gehöre es zur Familie — weil es das tut.">
+            <div class="principle" style="width:100%;border:1px solid var(--line);background:var(--bg-0)">
+              <span class="principle-k">I.</span>
+              <h3 class="principle-h">Familie zuerst</h3>
+              <p class="principle-p">Jedes Unternehmen wird geführt, als gehöre es zur Familie &mdash; weil es das tut.</p>
+            </div>
+          </div>
+
+          <div class="pstory-panel" id="pstory-1" data-roman="II." data-title="Qualität ohne Kompromiss" data-desc="Wir bauen keine schnellen Produkte. Wir bauen Häuser, die Bestand haben.">
+            <div class="principle" style="width:100%;border:1px solid var(--line);background:var(--bg-0)">
+              <span class="principle-k">II.</span>
+              <h3 class="principle-h">Qualität ohne Kompromiss</h3>
+              <p class="principle-p">Wir bauen keine schnellen Produkte. Wir bauen Häuser, die Bestand haben.</p>
+            </div>
+          </div>
+
+          <div class="pstory-panel" id="pstory-2" data-roman="III." data-title="Italienische Handschrift" data-desc="Unsere Wurzeln prägen Ästhetik, Material und Umgang — sichtbar und spürbar.">
+            <div class="principle" style="width:100%;border:1px solid var(--line);background:var(--bg-0)">
+              <span class="principle-k">III.</span>
+              <h3 class="principle-h">Italienische Handschrift</h3>
+              <p class="principle-p">Unsere Wurzeln prägen Ästhetik, Material und Umgang &mdash; sichtbar und spürbar.</p>
+            </div>
+          </div>
+
+          <div class="pstory-panel" id="pstory-3" data-roman="IV." data-title="Diskretion &amp; Service" data-desc="Wer uns vertraut, erwartet zurückhaltende Professionalität. Das ist unser Standard.">
+            <div class="principle" style="width:100%;border:1px solid var(--line);background:var(--bg-0)">
+              <span class="principle-k">IV.</span>
+              <h3 class="principle-h">Diskretion &amp; Service</h3>
+              <p class="principle-p">Wer uns vertraut, erwartet zurückhaltende Professionalität. Das ist unser Standard.</p>
+            </div>
+          </div>
+
+        </div><!-- /principles-panels -->
+      </div><!-- /principles-sticky-wrap -->
+
     </div>
   </section>
 
@@ -1381,72 +1607,305 @@
 
   <!-- ==================== SCRIPTS ==================== -->
   <script>
-    /* Nav scroll state */
+  (function(){
+    'use strict';
+
+    /* ── Nav scroll state ── */
     const nav = document.getElementById('nav');
     const onScroll = () => nav.classList.toggle('stuck', window.scrollY > 24);
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    /* Mobile menu */
-    const burger = document.getElementById('burger');
+    /* ── Mobile menu ── */
+    const burger  = document.getElementById('burger');
     const mobmenu = document.getElementById('mobmenu');
 
     function openMenu() {
-      burger.classList.add('open');
-      mobmenu.classList.add('open');
+      burger.classList.add('open'); mobmenu.classList.add('open');
       burger.setAttribute('aria-expanded', 'true');
       mobmenu.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
     }
     function closeMenu() {
-      burger.classList.remove('open');
-      mobmenu.classList.remove('open');
+      burger.classList.remove('open'); mobmenu.classList.remove('open');
       burger.setAttribute('aria-expanded', 'false');
       mobmenu.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     }
-    burger.addEventListener('click', () => {
-      (mobmenu.classList.contains('open') ? closeMenu : openMenu)();
-    });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeMenu();
-    });
+    burger.addEventListener('click', () => (mobmenu.classList.contains('open') ? closeMenu : openMenu)());
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
-    /* Reveal on scroll */
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          io.unobserve(e.target);
+    /* ── Respect reduced motion ── */
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ══════════════════════════════════════════════════════
+       GSAP SCROLL ANIMATIONS
+    ══════════════════════════════════════════════════════ */
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ── 1. Hero parallax scrub ── */
+    if (!prefersReduced) {
+      gsap.to('.hero-main', {
+        yPercent: -18,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.2
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.rv').forEach(el => io.observe(el));
-
-    /* Counter animation for figure values */
-    const countIo = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        const el  = e.target;
-        const end = parseInt(el.dataset.count, 10);
-        if (isNaN(end)) return countIo.unobserve(el);
-        const dur = 1100;
-        const t0  = performance.now();
-        (function tick(now){
-          const p = Math.min((now - t0) / dur, 1);
-          const eased = 1 - Math.pow(1 - p, 3);
-          el.textContent = Math.round(eased * end);
-          if (p < 1) requestAnimationFrame(tick);
-        })(t0);
-        countIo.unobserve(el);
+      gsap.to('.hero-side', {
+        yPercent: -8,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.8
+        }
       });
-    }, { threshold: 0.6 });
+    }
 
-    document.querySelectorAll('[data-count]').forEach(el => {
-      el.textContent = '0';
-      countIo.observe(el);
+    /* ── 2. Reveal (.rv) — driven by GSAP instead of CSS transition ── */
+    document.querySelectorAll('.rv').forEach((el, i) => {
+      if (prefersReduced) { gsap.set(el, { opacity: 1, y: 0 }); return; }
+      const delay = parseFloat(getComputedStyle(el).transitionDelay) || 0;
+      gsap.fromTo(el,
+        { opacity: 0, y: 22 },
+        {
+          opacity: 1, y: 0,
+          duration: 0.9,
+          delay: delay,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 92%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
     });
+
+    /* ── 3. Counter animation (figures) ── */
+    document.querySelectorAll('[data-count]').forEach(el => {
+      const end = parseInt(el.dataset.count, 10);
+      if (isNaN(end)) return;
+      const obj = { val: 0 };
+      el.textContent = '0';
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 80%',
+        once: true,
+        onEnter: () => {
+          gsap.to(obj, {
+            val: end,
+            duration: 1.4,
+            ease: 'power2.out',
+            onUpdate: () => { el.textContent = Math.round(obj.val); }
+          });
+        }
+      });
+    });
+
+    /* ── 4. Animated gold line (sectors) ── */
+    const sectorsLine = document.getElementById('sectors-line');
+    if (sectorsLine && !prefersReduced) {
+      gsap.fromTo(sectorsLine,
+        { width: 0 },
+        {
+          width: '100%',
+          duration: 1.2,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: sectorsLine,
+            start: 'top 85%'
+          }
+        }
+      );
+    }
+
+    /* ── 5. Sector list — staggered clip-path reveal ── */
+    const sectorItems = document.querySelectorAll('#sector-list li');
+    if (!prefersReduced && sectorItems.length) {
+      gsap.fromTo(sectorItems,
+        { clipPath: 'inset(0 100% 0 0)', opacity: 0 },
+        {
+          clipPath: 'inset(0 0% 0 0)',
+          opacity: 1,
+          duration: 0.85,
+          ease: 'power3.out',
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: '#sector-list',
+            start: 'top 80%'
+          }
+        }
+      );
+    } else {
+      sectorItems.forEach(el => { el.style.clipPath = 'none'; el.style.opacity = '1'; });
+    }
+
+    /* ── 6. Heritage quote scrub scale ── */
+    if (!prefersReduced) {
+      gsap.fromTo('.heritage-quote',
+        { scale: 0.94, opacity: 0.4 },
+        {
+          scale: 1, opacity: 1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.heritage',
+            start: 'top 70%',
+            end: 'center 40%',
+            scrub: 1.5
+          }
+        }
+      );
+    }
+
+    /* ── 7. Figures grid — stagger from below ── */
+    gsap.fromTo('.fig',
+      { y: 40, opacity: 0 },
+      {
+        y: 0, opacity: 1,
+        duration: 0.7,
+        ease: 'power3.out',
+        stagger: 0.11,
+        scrollTrigger: {
+          trigger: '.figures-grid',
+          start: 'top 82%'
+        }
+      }
+    );
+
+    /* ── 8. Portfolio cards animate in from right ── */
+    gsap.fromTo('.venture-card',
+      { x: 60, opacity: 0 },
+      {
+        x: 0, opacity: 1,
+        duration: 0.75,
+        ease: 'power3.out',
+        stagger: 0.08,
+        scrollTrigger: {
+          trigger: '#portfolioSnap',
+          start: 'top 85%'
+        }
+      }
+    );
+
+    /* ── 9. Scroll-Snap dot indicators ── */
+    (function initSnapDots(){
+      const wrap  = document.getElementById('portfolioSnap');
+      const dotsC = document.getElementById('snapDots');
+      if (!wrap || !dotsC) return;
+      const cards = wrap.querySelectorAll('.venture-card');
+      const dots  = [];
+      cards.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'snap-dot';
+        d.setAttribute('aria-label', `Unternehmen ${i+1}`);
+        d.addEventListener('click', () => {
+          cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        });
+        dotsC.appendChild(d);
+        dots.push(d);
+      });
+
+      let activeDot = 0;
+      function updateDots() {
+        const cw = cards[0].offsetWidth;
+        const idx = Math.round(wrap.scrollLeft / cw);
+        if (idx !== activeDot) {
+          dots[activeDot]?.classList.remove('active');
+          dots[idx]?.classList.add('active');
+          activeDot = idx;
+        }
+      }
+      dots[0]?.classList.add('active');
+      wrap.addEventListener('scroll', updateDots, { passive: true });
+    })();
+
+    /* ── 10. SCROLLYTELLING — Principles pin ── */
+    (function initPrinciplesScrollytelling(){
+      const isDesktop = window.innerWidth > 768;
+      if (!isDesktop || prefersReduced) {
+        // On mobile just reveal panels normally
+        document.querySelectorAll('.pstory-panel').forEach(p => {
+          gsap.set(p, { opacity: 1, x: 0 });
+        });
+        return;
+      }
+
+      const panels   = Array.from(document.querySelectorAll('.pstory-panel'));
+      const sidebar  = document.getElementById('principlesSidebar');
+      const pbar     = document.getElementById('principlesProgressBar');
+      const pCounter = document.getElementById('p-counter');
+      const pTitle   = document.getElementById('p-title');
+      const pDesc    = document.getElementById('p-desc');
+      const wrap     = document.getElementById('principlesStickyWrap');
+
+      if (!panels.length || !sidebar) return;
+
+      // Pin the sidebar for the height of the panels
+      ScrollTrigger.create({
+        trigger: wrap,
+        start: 'top top+=60',
+        end: () => `+=${wrap.offsetHeight - sidebar.offsetHeight}`,
+        pin: sidebar,
+        pinSpacing: false
+      });
+
+      // Animate each panel in as it enters
+      panels.forEach((panel, i) => {
+        const data = panel.dataset;
+
+        ScrollTrigger.create({
+          trigger: panel,
+          start: 'top 60%',
+          end: 'bottom 40%',
+          onEnter: () => {
+            gsap.to(panel, { opacity: 1, x: 0, duration: 0.65, ease: 'power3.out' });
+            updateSidebar(data.roman, data.title, data.desc, i);
+          },
+          onEnterBack: () => {
+            gsap.to(panel, { opacity: 1, x: 0, duration: 0.45, ease: 'power3.out' });
+            updateSidebar(data.roman, data.title, data.desc, i);
+          },
+          onLeave:     () => gsap.to(panel, { opacity: 0.3, x: 0, duration: 0.4 }),
+          onLeaveBack: () => gsap.to(panel, { opacity: 0.3, x: 32, duration: 0.4 })
+        });
+
+        // Progress bar scrub
+        ScrollTrigger.create({
+          trigger: wrap,
+          start: 'top top+=60',
+          end: () => `+=${wrap.offsetHeight - sidebar.offsetHeight}`,
+          scrub: true,
+          onUpdate: (self) => {
+            if (pbar) pbar.style.height = (self.progress * 100) + '%';
+          }
+        });
+      });
+
+      function updateSidebar(roman, title, desc, idx) {
+        if (!pCounter || !pTitle || !pDesc) return;
+        gsap.to([pCounter, pTitle, pDesc], {
+          opacity: 0, y: -8, duration: 0.2,
+          onComplete: () => {
+            pCounter.textContent = roman;
+            pTitle.textContent   = title;
+            pDesc.innerHTML      = desc;
+            gsap.to([pCounter, pTitle, pDesc], { opacity: 1, y: 0, duration: 0.35, stagger: 0.06, ease: 'power2.out' });
+          }
+        });
+        if (pCounter) gsap.to(pCounter, { opacity: 0.12 + idx * 0.06, duration: 0.4, delay: 0.25 });
+      }
+
+      // Init first panel
+      gsap.set(panels[0], { opacity: 1, x: 0 });
+    })();
+
+  })();
   </script>
 </body>
 </html>
